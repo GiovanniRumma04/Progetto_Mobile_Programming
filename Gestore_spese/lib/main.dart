@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:gestore_spese/Model/Categoria.dart';
+import 'package:gestore_spese/Model/ListaSpese.dart';
+import 'package:gestore_spese/Model/Spesa.dart';
 
 void main() {
+
   runApp(const MyApp());
 }
 
