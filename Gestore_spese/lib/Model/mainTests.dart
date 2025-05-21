@@ -1,4 +1,4 @@
-import 'Categoria.dart';
+/*import 'Categoria.dart';
 import 'ListaSpese.dart';
 import 'Spesa.dart';
 
@@ -24,4 +24,4 @@ void main(){
   print(c.toString());
   print(c1.toString());
   print(l.toString());
-}
+}*/

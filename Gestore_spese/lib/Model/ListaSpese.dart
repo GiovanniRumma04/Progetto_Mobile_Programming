@@ -5,43 +5,29 @@ class ListaSpese{
     late String _nomeLista;
     late double _spesaTotale;
     late List<Spesa> lista;
+    late int _numElementi;
 
-    ListaSpese(String nomeLista){
-      _nomeLista = nomeLista;
+    ListaSpese(this._nomeLista){
       _spesaTotale = 0.0;
+      _numElementi = 0;
       lista = [];
     }
 
+    int get numElementi => _numElementi;
 
-    String get nomeLista => _nomeLista;
+  set numElementi(int value) {
+    _numElementi = value;
+  }
 
-    void aggiungiSpesa(String nomeProdotto, int quantita,
-        double prezzo, DateTime d, Categoria c, String note) {
-      lista.add(new Spesa(
-          nomeProdotto,
-          _nomeLista,
-          quantita,
-          prezzo,
-          d,
-          c,
-          note));
-    }
+  double get spesaTotale => _spesaTotale;
 
-    //Nota: quando da una lista rimuoviamo una Spesa, viene prima selezionata la spesa
-    //con la funzione getRange partendo dall'indice della spesa, e poi viene aggiornata
-    //la categoria associata con la funzione remNumSpese
-    void rimuoviSpesa(int index){
-      Spesa s = lista.getRange(index, index+1).first;
-      s.c.remNumSpese();
-      lista.removeAt(index);
-    }
+  set spesaTotale(double value) {
+    _spesaTotale = value;
+  }
 
-    @override
-    String toString() {
-      return 'ListaSpese: Totale: $spesaTotale, $lista';
-    }
+  String get nomeLista => _nomeLista;
 
-    double get spesaTotale => _spesaTotale;
-
-
+  set nomeLista(String value) {
+    _nomeLista = value;
+  }
 }
