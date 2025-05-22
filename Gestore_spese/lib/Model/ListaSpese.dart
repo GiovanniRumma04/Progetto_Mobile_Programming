@@ -1,4 +1,3 @@
-import 'Categoria.dart';
 import 'Spesa.dart';
 
 class ListaSpese{
@@ -6,6 +5,7 @@ class ListaSpese{
     late double _spesaTotale;
     late List<Spesa> lista;
     late int _numElementi;
+    late DateTime datacreazione;
 
     ListaSpese(this._nomeLista){
       _spesaTotale = 0.0;
@@ -15,19 +15,32 @@ class ListaSpese{
 
     int get numElementi => _numElementi;
 
-  set numElementi(int value) {
-    _numElementi = value;
-  }
 
   double get spesaTotale => _spesaTotale;
 
-  set spesaTotale(double value) {
-    _spesaTotale = value;
-  }
+
 
   String get nomeLista => _nomeLista;
 
   set nomeLista(String value) {
     _nomeLista = value;
   }
+
+  void aggiungiSpesa(Spesa s){
+    lista.add(s);
+    _numElementi = _numElementi + 1;
+    _spesaTotale = spesaTotale + (s.p.prezzo * s.quantita);
+  }
+
+  void rimuoviSpesa(int index){
+    Spesa s = lista.removeAt(index);
+    _numElementi = _numElementi - 1;
+    _spesaTotale = spesaTotale - (s.p.prezzo * s.quantita);
+  }
+
+
+    @override
+    String toString() {
+      return 'ListaSpese{_nomeLista: $_nomeLista, _spesaTotale: $_spesaTotale, _numElementi: $_numElementi}';
+    }
 }
