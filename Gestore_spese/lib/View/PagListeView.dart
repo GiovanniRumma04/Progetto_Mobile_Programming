@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gestore_spese/Model/DatabaseManager.dart';
+import 'package:gestore_spese/Model/GestoreApp.dart';
 import 'package:gestore_spese/Model/ListaSpese.dart';
 import 'package:gestore_spese/View/BloccoLista.dart';
 
@@ -14,13 +15,13 @@ class ListeView extends StatefulWidget {
 }
 
 class _listeViewState extends State<ListeView> {
-  final List esempi = [
+  /*final List esempi = [
     ListaSpese('lista1'),
     ListaSpese('lista2'),
     ListaSpese('lista3'),
     ListaSpese('lista4'),
     ListaSpese('lista5'),
-  ];
+  ];*/
 
   @override
   Widget build(BuildContext context) {
@@ -34,9 +35,9 @@ class _listeViewState extends State<ListeView> {
           ),
         ),
         body: ListView.builder(
-          itemCount: esempi.length,
+          itemCount: listaCentrale.length,
           itemBuilder: (context, index) {
-            return BloccoLista(l: esempi[index]);
+            return BloccoLista(l: listaCentrale[index]);
           },
         ),
         floatingActionButton: FloatingActionButton(
