@@ -5,17 +5,15 @@ import 'package:gestore_spese/View/BloccoLista.dart';
 
 void main() {
 
-  DatabaseManager.instance.insertLista(new ListaSpese('lista1'));
-  print(DatabaseManager.instance.ottieniElementi().toString());
-  runApp(esempio());
+  runApp(ListeView());
 }
 
-class esempio extends StatefulWidget {
+class ListeView extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => _esempioState();
+  State<StatefulWidget> createState() => _listeViewState();
 }
 
-class _esempioState extends State<esempio> {
+class _listeViewState extends State<ListeView> {
   final List esempi = [
     ListaSpese('lista1'),
     ListaSpese('lista2'),
