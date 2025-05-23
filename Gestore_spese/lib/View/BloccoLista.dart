@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gestore_spese/Model/ListaSpese.dart';
+import 'package:gestore_spese/View/ListaView.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class BloccoLista extends StatelessWidget {
@@ -11,19 +12,20 @@ class BloccoLista extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: SizedBox(
-        height: 200,
+        height: 150,
         child: Card(
-          color: Color(0xFFFEF9EF),
+          color: Color(0xC6FFD7A0),
           margin: EdgeInsets.all(10),
           elevation: 4,
           child: Padding(
             padding: EdgeInsets.all(10),
-            child: Column(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Icon(Icons.table_chart, color: Colors.black, size: 30),
                     Text(
                       l.nomeLista,
                       style: GoogleFonts.b612(
@@ -34,25 +36,40 @@ class BloccoLista extends StatelessWidget {
                         ),
                       ),
                     ),
-                    IconButton(
-                      onPressed: () {},
-                      icon: Icon(Icons.arrow_forward_ios),
-                      color: Colors.black,
-                    ),
-                  ],
-                ),
-                Spacer(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
-                  children: [
-                    Text('Numero di Spese: ' + l.numElementi.toString()),
+                    Spacer(),
                     IconButton(
                       onPressed: () {},
                       icon: Icon(Icons.delete),
                       color: Colors.red,
                     ),
+                  ],
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+
+                    Text(
+                      'Data di Creazione: ' +l.stampaData(),
+                    ),
                     Text('Totale: ' + l.spesaTotale.toString() + '€'),
+                  ],
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ListaView(l: l),
+                          ),
+                        );
+                      },
+                      icon: Icon(Icons.arrow_forward_ios),
+                      color: Colors.black,
+                    ),
                   ],
                 ),
               ],

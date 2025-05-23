@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'SpesaProdottoView.dart';
 import '../Model/Spesa.dart';
 import '../Model/Prodotto.dart';
-import '../Model/Categoria.dart';
+import 'package:gestore_spese/Model/Categoria.dart';
 
 void main() {
   runApp(
