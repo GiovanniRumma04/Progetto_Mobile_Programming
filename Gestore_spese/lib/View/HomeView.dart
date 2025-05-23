@@ -1,60 +1,62 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class HomeView extends StatelessWidget{
+import 'BloccoLista.dart';
+
+class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-   return Scaffold(
+    return Scaffold(
+      appBar: AppBar(title: Text("HOME")),
+      body: Column(
+        children: [
+          TextField(style: TextStyle()),
 
-     appBar: AppBar(
-       title: Text("HOME"),
-     ),
-     body: Column(
+          SizedBox(height: 10),
 
-       children: [
+          Row(
+            children: [
+              Text("PRODOTTI RECENTI"),
+              TextButton(onPressed: () {}, child: Text("VEDI TUTTI")),
+              SizedBox(height: 15),
+            ],
+          ),
 
-         TextField(
-           style:TextStyle(
+          Container(
+            width: MediaQuery.of(context).size.width,
+            height: 350,
 
-           ) ,
+            // child: ListView.builder(
+            // itemCount: 4,
+            //itemBuilder:  (context, index) {
+            //return BloccoLista(l: listaCentrale[index]);
+            // },
+            //),
+          ),
 
-         ),
+          SizedBox(height: 10),
 
-         SizedBox(height: 10,),
+          Row(
+            children: [
+              Text("LISTE RECENTI"),
+              TextButton(onPressed: () {}, child: Text("VEDI TUTTI")),
+              SizedBox(height: 15),
+            ],
+          ),
 
-         Row(
+          Container(
+            width: MediaQuery.of(context).size.width,
+            height: 350,
 
-           children: [
-
-
-             Text("PRODOTTI RECENTI"),
-             TextButton(onPressed: (){}, child: Text("ALTRO")),
-             SizedBox(height: 15,),
-
-
-
-
-
-           ],
-         )
-
-       ],
-
-
-
-
-
-
-     ),
-
-
-   );
-
-
-
+            // child: ListView.builder(
+            // itemCount: 4,
+            //itemBuilder:  (context, index) {
+            //return BloccoLista(l: listaCentrale[index]);
+            // },
+            //),
+          ),
+        ],
+      ),
+    );
   }
-
-
-
-
 }
