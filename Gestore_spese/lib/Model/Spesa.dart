@@ -1,11 +1,11 @@
 import 'Prodotto.dart';
 
-class Spesa{
-
+class Spesa {
   late Prodotto p;
-  late DateTime _data;
-  late int _quantita;
 
+  late DateTime _data;
+
+  late int _quantita;
 
   DateTime get data => _data;
 
@@ -20,4 +20,20 @@ class Spesa{
   set quantita(int value) {
     _quantita = value;
   }
+
+  String stampaData(){
+    return _data.day.toString()+"/"+_data.month.toString()+"/"+_data.year.toString();
+  }
+
+  /*Map<String, dynamic> toJson(){
+    return{
+      'prodotto': p.toJson(),
+      'data': data.toIso8601String(),
+      'quantità': quantita
+    };
+  }
+
+  factory Spesa.fromJson(Map<String, dynamic> json){
+    return Spesa(json['prodotto'],json['data'],json['quantità']);
+  }*/
 }

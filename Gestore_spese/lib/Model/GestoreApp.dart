@@ -1,11 +1,7 @@
+import 'package:gestore_spese/Model/Categoria.dart';
 import 'package:gestore_spese/Model/ListaSpese.dart';
+import 'package:gestore_spese/Model/Prodotto.dart';
+import 'package:gestore_spese/Model/Spesa.dart';
 
+final List<ListaSpese> listaCentrale = [];
 
-final List<ListaSpese> listaCentrale = [
-  ListaSpese('lista1'),
-  ListaSpese('lista2'),
-  ListaSpese('lista3'),
-  ListaSpese('lista4'),
-  ListaSpese('lista5'),
-  ListaSpese('lista6'),
-];
