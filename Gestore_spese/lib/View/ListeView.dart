@@ -19,7 +19,7 @@ class _listeViewState extends State<ListeView> {
     final appState = Provider.of<GestoreApp>(context);
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Color(0xFF17C3B2),
+          backgroundColor: Color(0xFF227C9D),
           title: Text(
             'Le Tue Liste',
             style: TextStyle(fontWeight: FontWeight.bold),

@@ -12,10 +12,6 @@ class GestoreApp extends ChangeNotifier{
   List<ListaSpese> tutteLeListe = [];
 
 
-
-
-
-
   void creaProd (Prodotto p){
 
     prodotti.add(p);

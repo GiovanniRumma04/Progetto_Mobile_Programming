@@ -11,7 +11,7 @@ class ListaView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xFF17C3B2),
+        backgroundColor: Color(0xFF227C9D),
         title: Text(l.nomeLista, style: TextStyle(fontWeight: FontWeight.bold)),
       ),
       body: Container(
@@ -22,15 +22,25 @@ class ListaView extends StatelessWidget {
 
           children: [
             Container(
-              height: 70,
+              height: 50,
               margin: EdgeInsets.all(8),
               padding: EdgeInsets.all(12),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(20),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.2),
+                    spreadRadius: 2,
+                    blurRadius: 8,
+                    offset: Offset(0, 0),
+                  ),
+                ],
+
               ),
               child: TextField(
-                decoration: InputDecoration(labelText: 'Cerca un Prodotto...'),
+                decoration: InputDecoration(labelText: 'Cerca un Prodotto...', border: InputBorder.none),
+
               ),
             ),
             Text('Dettagli Lista: '),
@@ -70,6 +80,14 @@ class CustomCards extends StatelessWidget {
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(20),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.2),
+                spreadRadius: 2,
+                blurRadius: 8,
+                offset: Offset(0, 0),
+              ),
+            ],
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -109,6 +127,14 @@ class CustomCards extends StatelessWidget {
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(20),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.2),
+                spreadRadius: 2,
+                blurRadius: 8,
+                offset: Offset(0, 0),
+              ),
+            ],
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

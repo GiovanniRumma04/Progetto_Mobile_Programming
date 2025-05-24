@@ -51,8 +51,12 @@ class BloccoLista extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Data di Creazione: ${l.stampaData()}'),
-              Text('Totale: ${l.spesaTotale}€'),
+              Text('Data di Creazione: ${l.stampaData()}', style: TextStyle(
+                fontWeight: FontWeight.bold
+              ),),
+              Text('Totale: ${l.spesaTotale}€', style: TextStyle(
+                  fontWeight: FontWeight.bold
+              ),),
             ],
           ),
           Column(
