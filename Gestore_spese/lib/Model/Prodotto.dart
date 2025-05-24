@@ -10,7 +10,7 @@ class Prodotto {
   late String _note;
 
   Prodotto(this._nomeprodotto, this._prezzo, this._c, this._note){
-    this._c.numSpese++;
+    _c.numSpese++;
   }
 
   Categoria get c => _c;

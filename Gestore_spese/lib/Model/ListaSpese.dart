@@ -41,7 +41,7 @@ class ListaSpese {
   }
 
   String stampaData(){
-    return datacreazione.day.toString()+"/"+datacreazione.month.toString()+"/"+datacreazione.year.toString();
+    return "${datacreazione.day}/${datacreazione.month}/${datacreazione.year}";
   }
 
   /*Map<String, dynamic> toJson() {
