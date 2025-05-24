@@ -6,7 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 class BloccoLista extends StatelessWidget {
   final ListaSpese l;
 
-  BloccoLista({required this.l});
+  const BloccoLista({super.key, required this.l});
 
   @override
   Widget build(BuildContext context) {
@@ -51,8 +51,8 @@ class BloccoLista extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Data di Creazione: ' + l.stampaData()),
-              Text('Totale: ' + l.spesaTotale.toString() + '€'),
+              Text('Data di Creazione: ${l.stampaData()}'),
+              Text('Totale: ${l.spesaTotale}€'),
             ],
           ),
           Column(

@@ -1,4 +1,3 @@
-import 'package:gestore_spese/Model/GestoreApp.dart';
 import 'package:flutter/material.dart';
 import 'package:gestore_spese/Model/ListaSpese.dart';
 import 'package:gestore_spese/Model/Spesa.dart';
@@ -6,7 +5,7 @@ import 'package:gestore_spese/Model/Spesa.dart';
 class ListaView extends StatelessWidget {
   final ListaSpese l;
 
-  ListaView({required this.l});
+  const ListaView({super.key, required this.l});
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +34,7 @@ class ListaView extends StatelessWidget {
               ),
             ),
             Text('Dettagli Lista: '),
-            Text('Data di Creazione: ' + l.stampaData()),
+            Text('Data di Creazione: ${l.stampaData()}'),
             Text(
               'Totale: ' + l.spesaTotale.toString() + "€",
               style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
@@ -57,7 +56,7 @@ class ListaView extends StatelessWidget {
 
 class CustomCards extends StatelessWidget {
   final Spesa s;
-  CustomCards({required this.s});
+  const CustomCards({super.key, required this.s});
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +83,7 @@ class CustomCards extends StatelessWidget {
                 ),
               ),
               Text(
-                'Data Spesa: ' + s.stampaData(),
+                'Data Spesa: ${s.stampaData()}',
                 style: TextStyle(fontWeight: FontWeight.w300),
               ),
               Text(
@@ -92,7 +91,7 @@ class CustomCards extends StatelessWidget {
                 style: TextStyle(fontWeight: FontWeight.w300),
               ),
               Text(
-                'Quantità: ' + s.quantita.toString(),
+                'Quantità: ${s.quantita}',
                 style: TextStyle(fontWeight: FontWeight.w300),
               ),
               Text(

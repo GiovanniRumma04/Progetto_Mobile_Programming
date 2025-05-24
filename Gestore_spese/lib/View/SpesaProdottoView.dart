@@ -6,7 +6,7 @@ class SpesaProdottoView extends StatelessWidget {
   final bool mostraTutto;
   final Spesa spesa;
 
-  const SpesaProdottoView(this.mostraTutto, this.spesa, {Key? key}) : super(key: key);
+  const SpesaProdottoView(this.mostraTutto, this.spesa, {super.key});
 
   @override
   Widget build(BuildContext context) {

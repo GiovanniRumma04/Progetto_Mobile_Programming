@@ -22,7 +22,7 @@ class Spesa {
   }
 
   String stampaData(){
-    return _data.day.toString()+"/"+_data.month.toString()+"/"+_data.year.toString();
+    return "${_data.day}/${_data.month}/${_data.year}";
   }
 
   /*Map<String, dynamic> toJson(){
