@@ -12,9 +12,7 @@ class GestoreApp extends ChangeNotifier{
   List<ListaSpese> tutteLeListe = [];
 
 
-  void initalize(){
-    prodotti.addAll(p,p1,p2);
-  }
+
 
 
 
