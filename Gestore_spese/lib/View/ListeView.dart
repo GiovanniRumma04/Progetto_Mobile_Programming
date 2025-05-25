@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:gestore_spese/Model/GestoreApp.dart';
+import 'package:gestore_spese/View/AddList.dart';
 import 'package:gestore_spese/View/BloccoLista.dart';
 import 'package:provider/provider.dart';
+
+import 'InfoListaScreen.dart';
 
 class ListeView extends StatefulWidget {
   const ListeView({super.key});
@@ -32,11 +35,17 @@ class _listeViewState extends State<ListeView> {
           },
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () {},
+          onPressed: openSettingLista,
+          
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
           backgroundColor: Color(0xFFFE6D73),
           child: const Icon(Icons.add, color: Colors.black),
         ),
       );
+  }
+
+  void openSettingLista() {
+
+    showModalBottomSheet(context: context, builder: (ctx)=>  InfoListaScreen()  );
   }
 }
