@@ -19,7 +19,7 @@ class ProdottoView extends StatelessWidget {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     final colorScheme = Theme.of(context).colorScheme;
-    final widgetHeight = height ?? 80;
+    final widgetHeight = height ?? 84;
 
     return SizedBox(
       width: double.infinity,

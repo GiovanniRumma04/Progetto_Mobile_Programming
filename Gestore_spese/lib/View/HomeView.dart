@@ -1,13 +1,66 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
+import 'package:gestore_spese/View/BloccoLista.dart';
+import 'package:gestore_spese/View/ProdottoView.dart';
+import 'package:provider/provider.dart';
 
+import '../Model/Categoria.dart';
+import '../Model/GestoreApp.dart';
+import '../Model/ListaSpese.dart';
+import '../Model/Prodotto.dart';
+import '../Model/Spesa.dart';
 import 'ListeView.dart';
+
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
 
   @override
   Widget build(BuildContext context) {
+
+    ListaSpese l = new ListaSpese('lista1');
+    ListaSpese l1 = new ListaSpese('lista2');
+    ListaSpese l2 = new ListaSpese('lista3');
+
+    Categoria c1 = new Categoria('cibo');
+    Categoria c2 = new Categoria('elettronica');
+    Prodotto p = new Prodotto('uova', 2.5, c1, 'un pacco');
+
+    Prodotto p1 = new Prodotto('farina', 2.5, c1, 'un pacco');
+
+    Prodotto p2 = new Prodotto('pane', 2.5, c1, 'dsadsad');
+
+    Spesa s1 = new Spesa(p, DateTime.now(), 3);
+    Spesa s2 = new Spesa(p1, DateTime.now(), 5);
+    Spesa s3 = new Spesa(p2, DateTime.now(), 1);
+
+    l.aggiungiSpesa(s1);
+    l.aggiungiSpesa(s2);
+    l.aggiungiSpesa(s3);
+    l.aggiungiSpesa(s1);
+    l.aggiungiSpesa(s3);
+    l.aggiungiSpesa(s2);
+    l.aggiungiSpesa(s1);
+    l.aggiungiSpesa(s2);
+    l.aggiungiSpesa(s3);
+    l.aggiungiSpesa(s1);
+    l.aggiungiSpesa(s3);
+    l.aggiungiSpesa(s2);
+
+    l1.aggiungiSpesa(s1);
+    l1.aggiungiSpesa(s2);
+    l1.aggiungiSpesa(s3);
+
+    l2.aggiungiSpesa(s2);
+    l2.aggiungiSpesa(s1);
+    l2.aggiungiSpesa(s3);
+
+    final AppProvider = Provider.of<GestoreApp>(context);
+    AppProvider.tutteLeListe.addAll([l1, l2]);
+    AppProvider.prodotti.addAll([p1, p2]);
+
     final TextStyle sectionTitleStyle = TextStyle(
       fontSize: 20,
       fontWeight: FontWeight.bold,
@@ -87,6 +140,12 @@ class HomeView extends StatelessWidget {
               width: double.infinity,
               height: 350,
               color: Colors.grey[100],
+                child: ListView.builder(
+                    itemCount: min(AppProvider.prodotti.length, 3),
+                    itemBuilder: (context, index){
+                      if(!AppProvider.prodotti.isEmpty){
+                        return ProdottoView(prodotto: AppProvider.prodotti[index], icona: Icons.icecream_outlined,);}
+                    })
             ),
 
             SizedBox(height: 25),
@@ -113,6 +172,12 @@ class HomeView extends StatelessWidget {
               width: double.infinity,
               height: 350,
               color: Colors.grey[100],
+              child: ListView.builder(
+                itemCount: min(AppProvider.tutteLeListe.length, 3),
+                itemBuilder: (context, index){
+                  if(!AppProvider.tutteLeListe.isEmpty){
+                    return BloccoLista(l: AppProvider.tutteLeListe[index]);}
+                })
             ),
           ],
         ),
