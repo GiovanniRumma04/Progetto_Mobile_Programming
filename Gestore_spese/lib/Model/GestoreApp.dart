@@ -9,8 +9,7 @@ class GestoreApp extends ChangeNotifier{
 
   List<Prodotto> prodotti = [];
   List<Spesa> spese = [];
-  List<ListaSpese> tutteLeListe = [];
-
+  List<ListaSpese> tutteLeListe = [ListaSpese('prova1'), ListaSpese('prova2'), ListaSpese('prova3')];
 
   void creaProd (Prodotto p){
 
@@ -22,11 +21,19 @@ class GestoreApp extends ChangeNotifier{
   void CreaLista (ListaSpese ls){
 
     tutteLeListe.add(ls);
+    print(tutteLeListe);
     notifyListeners();
   }
 
   void creaSpesa (ListaSpese ls,Spesa s){
     ls.aggiungiSpesa(s);
+    notifyListeners();
+  }
+
+  void eliminaLista(ListaSpese l){
+
+    tutteLeListe.remove(l);
+    print(tutteLeListe);
     notifyListeners();
   }
 

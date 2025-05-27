@@ -13,69 +13,30 @@ import '../Model/Prodotto.dart';
 import '../Model/Spesa.dart';
 import 'ListeView.dart';
 
-
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
+
 
   @override
   Widget build(BuildContext context) {
 
-    ListaSpese l = new ListaSpese('lista1');
-    ListaSpese l1 = new ListaSpese('lista2');
-    ListaSpese l2 = new ListaSpese('lista3');
+    final appProvider = Provider.of<GestoreApp>(context);
 
-    Categoria c1 = new Categoria('cibo');
-    Categoria c2 = new Categoria('elettronica');
-    Prodotto p = new Prodotto('uova', 2.5, c1, 'un pacco');
-
-    Prodotto p1 = new Prodotto('farina', 2.5, c1, 'un pacco');
-
-    Prodotto p2 = new Prodotto('pane', 2.5, c1, 'dsadsad');
-
-    Spesa s1 = new Spesa(p, DateTime.now(), 3);
-    Spesa s2 = new Spesa(p1, DateTime.now(), 5);
-    Spesa s3 = new Spesa(p2, DateTime.now(), 1);
-
-    l.aggiungiSpesa(s1);
-    l.aggiungiSpesa(s2);
-    l.aggiungiSpesa(s3);
-    l.aggiungiSpesa(s1);
-    l.aggiungiSpesa(s3);
-    l.aggiungiSpesa(s2);
-    l.aggiungiSpesa(s1);
-    l.aggiungiSpesa(s2);
-    l.aggiungiSpesa(s3);
-    l.aggiungiSpesa(s1);
-    l.aggiungiSpesa(s3);
-    l.aggiungiSpesa(s2);
-
-    l1.aggiungiSpesa(s1);
-    l1.aggiungiSpesa(s2);
-    l1.aggiungiSpesa(s3);
-
-    l2.aggiungiSpesa(s2);
-    l2.aggiungiSpesa(s1);
-    l2.aggiungiSpesa(s3);
-
-    final AppProvider = Provider.of<GestoreApp>(context);
-    AppProvider.tutteLeListe.addAll([l1, l2]);
-    AppProvider.prodotti.addAll([p1, p2]);
 
     final TextStyle sectionTitleStyle = TextStyle(
       fontSize: 20,
       fontWeight: FontWeight.bold,
       shadows: [
-        Shadow(color: Colors.black38, offset: Offset(1, 1), blurRadius: 2)
+        Shadow(color: Colors.black38, offset: Offset(1, 1), blurRadius: 2),
       ],
     );
     final TextStyle textButtonStyle = TextStyle(
       fontSize: 16,
-      color:Color(0xFF17C3B2) ,
-      fontWeight:  FontWeight.bold,
+      color: Color(0xFF17C3B2),
+      fontWeight: FontWeight.bold,
       shadows: [
-        Shadow(color: Color(0x6617C3B2), offset: Offset(1, 1), blurRadius: 2)
+        Shadow(color: Color(0x6617C3B2), offset: Offset(1, 1), blurRadius: 2),
       ],
-
     );
 
     final TextStyle fabLabelStyle = TextStyle(
@@ -83,20 +44,16 @@ class HomeView extends StatelessWidget {
       fontWeight: FontWeight.w600,
       color: Colors.black87,
       shadows: [
-        Shadow(color: Colors.black12, offset: Offset(1, 1), blurRadius: 1)
+        Shadow(color: Colors.black12, offset: Offset(1, 1), blurRadius: 1),
       ],
     );
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor:Color(0xFF227C9D),
+        backgroundColor: Color(0xFF227C9D),
         title: Text(
           "Benvenuto nella Home",
-          style: TextStyle(
-            fontSize: 22,
-            fontWeight: FontWeight.bold,
-
-          ),
+          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
       ),
@@ -131,7 +88,7 @@ class HomeView extends StatelessWidget {
                 TextButton(
                   onPressed: () {},
 
-                  child: Text("Scopri di più",style: textButtonStyle,),
+                  child: Text("Scopri di più", style: textButtonStyle),
                 ),
               ],
             ),
@@ -140,12 +97,17 @@ class HomeView extends StatelessWidget {
               width: double.infinity,
               height: 350,
               color: Colors.grey[100],
-                child: ListView.builder(
-                    itemCount: min(AppProvider.prodotti.length, 3),
-                    itemBuilder: (context, index){
-                      if(!AppProvider.prodotti.isEmpty){
-                        return ProdottoView(prodotto: AppProvider.prodotti[index], icona: Icons.icecream_outlined,);}
-                    })
+              /*child: ListView.builder(
+                itemCount: min(AppProvider.prodotti.length, 3),
+                itemBuilder: (context, index) {
+                  if (!AppProvider.prodotti.isEmpty) {
+                    return ProdottoView(
+                      prodotto: AppProvider.prodotti[index],
+                      icona: Icons.icecream_outlined,
+                    );
+                  }
+                },
+              ),*/
             ),
 
             SizedBox(height: 25),
@@ -156,14 +118,13 @@ class HomeView extends StatelessWidget {
               children: [
                 Text("LISTE RECENTI", style: sectionTitleStyle),
                 TextButton(
-                  onPressed: (){
-                    Navigator.push(context, MaterialPageRoute(
-                        builder: (context) => ListeView()
-                    )
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ListeView()),
                     );
                   },
-                  child: Text("Scopri di più",style: textButtonStyle,),
-
+                  child: Text("Scopri di più", style: textButtonStyle),
                 ),
               ],
             ),
@@ -173,11 +134,16 @@ class HomeView extends StatelessWidget {
               height: 350,
               color: Colors.grey[100],
               child: ListView.builder(
-                itemCount: min(AppProvider.tutteLeListe.length, 3),
-                itemBuilder: (context, index){
-                  if(!AppProvider.tutteLeListe.isEmpty){
-                    return BloccoLista(l: AppProvider.tutteLeListe[index]);}
-                })
+                itemCount: min(appProvider.tutteLeListe.length, 3),
+                itemBuilder: (context, index) {
+                  final elemento = appProvider.tutteLeListe[index];
+
+                  return BloccoLista(
+                    l: elemento,
+                    indice: index,
+                  );
+                },
+              ),
             ),
           ],
         ),
@@ -193,14 +159,14 @@ class HomeView extends StatelessWidget {
         ),
         childrenAnimation: ExpandableFabAnimation.rotate,
         openButtonBuilder: RotateFloatingActionButtonBuilder(
-          child: const Icon(Icons.add,size: 33,),
+          child: const Icon(Icons.add, size: 33),
           fabSize: ExpandableFabSize.regular,
           foregroundColor: Color(0xFFFEF9EF), // Colore dell'icona
           backgroundColor: Color(0xffFE6D73), // Colore di sfondo del FAB
           shape: const CircleBorder(),
         ),
         closeButtonBuilder: DefaultFloatingActionButtonBuilder(
-          child: const Icon(Icons.close,size: 33,),
+          child: const Icon(Icons.close, size: 33),
           fabSize: ExpandableFabSize.regular,
           foregroundColor: Color(0xFFFEF9EF),
           backgroundColor: Color(0xFFFE6D73),
@@ -252,4 +218,3 @@ class HomeView extends StatelessWidget {
     );
   }
 }
-

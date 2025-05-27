@@ -1,80 +1,171 @@
 import 'package:flutter/material.dart';
+import 'package:gestore_spese/Model/GestoreApp.dart';
 import 'package:gestore_spese/Model/ListaSpese.dart';
 import 'package:gestore_spese/View/ListaView.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class BloccoLista extends StatelessWidget {
   final ListaSpese l;
+  final int indice;
 
-  const BloccoLista({super.key, required this.l});
+
+  const BloccoLista({super.key, required this.l, required this.indice});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width,
 
-      height: 150,
-      padding: EdgeInsets.all(12),
-      margin: EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: Color(0xFFFFCB77),
-        borderRadius: BorderRadius.circular(20),
-      ),
+    return Card(
+      color: Color(0xFFFFCB77),
+      elevation: 2,
+      child: Container(
+        width: MediaQuery.of(context).size.width,
 
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        height: 150,
+        padding: EdgeInsets.all(12),
 
-        children: [
-          Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                l.nomeLista,
-                style: GoogleFonts.b612(
-                  textStyle: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.w300,
-                    fontSize: 25,
+        decoration: BoxDecoration(
+
+          color: Color(0xFFFFCB77),
+          borderRadius: BorderRadius.circular(20),
+        ),
+
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  l.nomeLista,
+                  style: GoogleFonts.b612(
+                    textStyle: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.w300,
+                      fontSize: 25,
+                    ),
                   ),
                 ),
-              ),
 
-              IconButton(
-                onPressed: () {},
-                icon: Icon(Icons.delete),
-                color: Colors.red,
-              ),
-            ],
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('Data di Creazione: ${l.stampaData()}', style: TextStyle(
-                fontWeight: FontWeight.bold
-              ),),
-              Text('Totale: ${l.spesaTotale}€', style: TextStyle(
+                IconButton(
+                  onPressed: () {
+                    confermaPopup(context, l);
+
+                  },
+                  icon: Icon(Icons.delete),
+                  color: Colors.red,
+                ),
+              ],
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('Data di Creazione: ${l.stampaData()}', style: TextStyle(
                   fontWeight: FontWeight.bold
-              ),),
-            ],
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.start,
+                ),),
+                Text('Totale: ${l.spesaTotale}€', style: TextStyle(
+                    fontWeight: FontWeight.bold
+                ),),
+              ],
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                IconButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ListaView(l: l)),
+                    );
+                  },
+                  icon: Icon(Icons.arrow_forward_ios),
+                  color: Colors.black,
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void confermaPopup(BuildContext context, ListaSpese l) {
+    showModalBottomSheet(
+      context: context,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
+      builder: (context) => Container(
+        height: 250,
+        child: Padding(
+          padding: EdgeInsets.all(20),
+
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisSize: MainAxisSize.min,
             children: [
-              IconButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => ListaView(l: l)),
-                  );
-                },
-                icon: Icon(Icons.arrow_forward_ios),
-                color: Colors.black,
+              Center(
+                  child: Text(
+                    'Sei sicuro di voler cancella questa lista?'
+                    ,style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold
+                  ),)
               ),
-            ],
-          ),
-        ],
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  ElevatedButton(
+                      onPressed: (){
+                        Provider.of<GestoreApp>(context, listen: false).eliminaLista(l);
+                        Navigator.pop(context);
+                      },
+
+                      style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          padding: EdgeInsets.symmetric(vertical: 16, horizontal: 30),
+                          elevation: 6,
+                          backgroundColor: Color(0xFFFE6D73),
+                          shadowColor: Color(0xFFFE6D73).withOpacity(0.6)
+                      ),
+                      child: Text(
+                        'Conferma',
+                        style: TextStyle(color: Colors.white, fontSize: 18,
+                          fontWeight: FontWeight.bold,),)
+
+                  ),
+                  ElevatedButton(
+                      onPressed: (){
+                        Navigator.pop(context);
+                      },
+
+
+
+                      style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          padding: EdgeInsets.symmetric(vertical: 16, horizontal: 30),
+                          elevation: 6,
+                          backgroundColor: Colors.white,
+                          shadowColor: Colors.black.withOpacity(0.6)
+                      ),
+
+                      child: Text(
+                        'Annulla', style: TextStyle(
+                        color: Color(0xFFFE6D73),
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),))
+                ],
+              )
+
+            ]
+        )
+    ),
       ),
     );
   }

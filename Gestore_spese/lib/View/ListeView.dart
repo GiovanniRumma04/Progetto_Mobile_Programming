@@ -4,6 +4,10 @@ import 'package:gestore_spese/View/AddList.dart';
 import 'package:gestore_spese/View/BloccoLista.dart';
 import 'package:provider/provider.dart';
 
+import '../Model/Categoria.dart';
+import '../Model/ListaSpese.dart';
+import '../Model/Prodotto.dart';
+import '../Model/Spesa.dart';
 import 'InfoListaScreen.dart';
 
 class ListeView extends StatefulWidget {
@@ -14,8 +18,6 @@ class ListeView extends StatefulWidget {
 }
 
 class _listeViewState extends State<ListeView> {
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +33,8 @@ class _listeViewState extends State<ListeView> {
         body: ListView.builder(
           itemCount: appState.tutteLeListe.length,
           itemBuilder: (context, index) {
-            return BloccoLista(l: appState.tutteLeListe[index]);
+            final elemento = appState.tutteLeListe[index];
+            return BloccoLista(l: elemento, indice: index);
           },
         ),
         floatingActionButton: FloatingActionButton(
