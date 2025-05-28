@@ -3,6 +3,84 @@ import 'package:gestore_spese/Model/ListaSpese.dart';
 import 'package:gestore_spese/Model/Spesa.dart';
 
 class ListaView extends StatelessWidget {
+  final ListaSpese listaSpese;
+
+  const ListaSpesaScreen({Key? key, required this.listaSpese}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+    final colorScheme = Theme.of(context).colorScheme;
+
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        backgroundColor: colorScheme.primary,
+        title: Text(
+          listaSpese.nomeLista,
+          style: textTheme.headlineSmall?.copyWith(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+      body: ListView.builder(
+        itemCount: listaSpese.lista.length,
+        itemBuilder: (context, index) {
+          final spesa = listaSpese.lista[index];
+          return Stack(
+            children: [
+              ProductItemWidget(
+                prodotto: spesa.p,
+                icona: Icons.shopping_cart,
+              ),
+              Positioned(
+                right: 24,
+                top: 8,
+                child: Text(
+                  "x${spesa.quantita}",
+                  style: textTheme.labelLarge?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    backgroundColor: Colors.transparent,
+                  ),
+                ),
+              ),
+            ],
+          );
+        },
+      ),
+      bottomNavigationBar: SafeArea(
+        child: BottomAppBar(
+          elevation: 8,
+          color: colorScheme.surface,
+          shape: const CircularNotchedRectangle(),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Totale:",
+                  style: textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),
+                ),
+                Text(
+                  "€${listaSpese.spesaTotale.toStringAsFixed(2)}",
+                  style: textTheme.headlineSmall?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: colorScheme.primary,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/*
+class ListaView extends StatelessWidget {
   final ListaSpese l;
 
   const ListaView({super.key, required this.l});
@@ -152,3 +230,4 @@ class CustomCards extends StatelessWidget {
     );
   }
 }
+*/
