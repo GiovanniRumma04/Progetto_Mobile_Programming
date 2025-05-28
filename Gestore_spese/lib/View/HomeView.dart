@@ -3,6 +3,9 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:gestore_spese/View/BloccoLista.dart';
+import 'package:gestore_spese/View/CreaCategoriaView.dart';
+import 'package:gestore_spese/View/CreaProdottoView.dart';
+import 'package:gestore_spese/View/InfoListaScreen.dart';
 import 'package:gestore_spese/View/ProdottoView.dart';
 import 'package:provider/provider.dart';
 
@@ -21,6 +24,7 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
 
     final appProvider = Provider.of<GestoreApp>(context);
+
 
 
     final TextStyle sectionTitleStyle = TextStyle(
@@ -97,17 +101,17 @@ class HomeView extends StatelessWidget {
               width: double.infinity,
               height: 350,
               color: Colors.grey[100],
-              /*child: ListView.builder(
-                itemCount: min(AppProvider.prodotti.length, 3),
+              child: ListView.builder(
+                itemCount: min(appProvider.prodotti.length, 3),
                 itemBuilder: (context, index) {
-                  if (!AppProvider.prodotti.isEmpty) {
+                  if (!appProvider.prodotti.isEmpty) {
                     return ProdottoView(
-                      prodotto: AppProvider.prodotti[index],
+                      prodotto: appProvider.prodotti[index],
                       icona: Icons.icecream_outlined,
                     );
                   }
                 },
-              ),*/
+              ),
             ),
 
             SizedBox(height: 25),
@@ -182,7 +186,10 @@ class HomeView extends StatelessWidget {
                 heroTag: null,
                 backgroundColor: Color(0xFFFEF9EF),
 
-                onPressed: () {},
+                onPressed: () {
+
+                  showModalBottomSheet(context: context, builder: (ctx)=>  InfoListaScreen()  );
+                },
                 child: Icon(Icons.checklist_rounded, color: Color(0xFFFE6D73)),
               ),
             ],
@@ -195,7 +202,9 @@ class HomeView extends StatelessWidget {
                 elevation: 6,
                 heroTag: null,
                 backgroundColor: Color(0xFFFEF9EF),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => CreaProdottoView()));
+                },
                 child: Icon(Icons.add_box_rounded, color: Color(0xFFFE6D73)),
               ),
             ],
@@ -208,7 +217,9 @@ class HomeView extends StatelessWidget {
                 elevation: 6,
                 heroTag: null,
                 backgroundColor: Color(0xFFFEF9EF),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => CreaCategoriaView()));
+                },
                 child: Icon(Icons.category_rounded, color: Color(0xFFFE6D73)),
               ),
             ],

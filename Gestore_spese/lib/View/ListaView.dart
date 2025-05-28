@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:gestore_spese/Model/ListaSpese.dart';
 import 'package:gestore_spese/Model/Spesa.dart';
 
-class ListaView extends StatelessWidget {
+/*class ListaView extends StatelessWidget {
   final ListaSpese listaSpese;
 
-  const ListaSpesaScreen({Key? key, required this.listaSpese}) : super(key: key);
+  const ListaView({Key? key, required this.listaSpese}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -78,8 +78,8 @@ class ListaView extends StatelessWidget {
     );
   }
 }
+*/
 
-/*
 class ListaView extends StatelessWidget {
   final ListaSpese l;
 
@@ -230,4 +230,3 @@ class CustomCards extends StatelessWidget {
     );
   }
 }
-*/

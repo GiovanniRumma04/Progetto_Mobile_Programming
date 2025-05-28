@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:gestore_spese/Model/GestoreApp.dart';
+import 'package:provider/provider.dart';
 
 class SpesaView extends StatefulWidget {
+  int index;
+
+  SpesaView({required this.index});
+
   @override
   _SpesaViewState createState() => _SpesaViewState();
 }
@@ -9,8 +15,10 @@ class _SpesaViewState extends State<SpesaView> {
   bool _selected = false;
   int _count = 0;
 
+
   @override
   Widget build(BuildContext context) {
+    final appProvider = Provider.of<GestoreApp>(context);
     return Card(
 
       elevation: 6,
@@ -42,7 +50,7 @@ class _SpesaViewState extends State<SpesaView> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Nome fisso',
+                      appProvider.prodotti[widget.index].nomeprodotto,
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -51,7 +59,7 @@ class _SpesaViewState extends State<SpesaView> {
                     ),
                     SizedBox(height: 4),
                     Text(
-                      'Descrizione fissa',
+                      appProvider.prodotti[widget.index].note,
                       style: TextStyle(
                         fontSize: 14,
                         color: Colors.black54,

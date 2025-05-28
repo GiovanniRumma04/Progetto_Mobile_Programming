@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:gestore_spese/Model/GestoreApp.dart';
 import 'package:gestore_spese/View/AddList.dart';
+import 'package:gestore_spese/View/CreaCategoriaView.dart';
+import 'package:provider/provider.dart';
 
 class InfoListaScreen extends StatefulWidget {
   @override
@@ -17,155 +20,217 @@ class _InfoListaScreenState extends State<InfoListaScreen> {
     fontSize: 35,
     fontWeight: FontWeight.bold,
     shadows: [
-      Shadow(color: Colors.black38, offset: Offset(1, 1), blurRadius: 2)
+      Shadow(color: Colors.black38, offset: Offset(1, 1), blurRadius: 2),
     ],
   );
   int? _selectedChip;
   final double _radius = 12.0;
   final TextEditingController _controller = TextEditingController();
+  bool _isButtonEnabled = false;
+
+  @override
+  void initState(){
+    super.initState();
+    _controller.addListener(() {
+      setState(() {
+        _isButtonEnabled = _controller.text.trim().isNotEmpty;
+      });
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
     final now = DateTime.now();
-    final formattedDate = '${now.day.toString().padLeft(2, '0')}/${now.month.toString().padLeft(2, '0')}/${now.year}';
+    final formattedDate =
+        '${now.day.toString().padLeft(2, '0')}/${now.month.toString().padLeft(2, '0')}/${now.year}';
+    final appProvider = Provider.of<GestoreApp>(context);
 
-    return  Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text("Crea Lista" , style:  sectionTitleStyle,),
-            SizedBox(height: 20,),
-            SizedBox(
-              width: 200,
-              child: TextField(
-                controller: _controller,
-                textAlign: TextAlign.center,
-                decoration: InputDecoration(
-                  labelText: 'Nome Lista',
-                  labelStyle: TextStyle(color: fieldBorderColor),
-                  contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide(color: fieldBorderColor, width: 1.5),
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text("Crea Lista", style: sectionTitleStyle),
+          SizedBox(height: 20),
+          SizedBox(
+            width: 200,
+            child: TextField(
+
+              controller: _controller,
+              textAlign: TextAlign.center,
+              decoration: InputDecoration(
+                labelText: 'Nome Lista',
+                labelStyle: TextStyle(color: fieldBorderColor),
+                contentPadding: EdgeInsets.symmetric(
+                  vertical: 10,
+                  horizontal: 10,
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide(color: fieldBorderColor, width: 1.5),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide(
+                    color: fieldBorderColor.withOpacity(0.7),
                   ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide(color: fieldBorderColor.withOpacity(0.7)),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide(color: fieldBorderColor, width: 2),
-                  ),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide(color: fieldBorderColor, width: 2),
                 ),
               ),
             ),
+          ),
 
-            SizedBox(height: 16),
+          SizedBox(height: 16),
 
-              SizedBox(
-              height: 70,
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Column(
-                  children: [
-                    Wrap(
-                      spacing: 8,
-                      runSpacing: 8,
-                      children: List.generate(5, (index) {
-                        return ChoiceChip.elevated(
-                          elevation: 8,
-                          backgroundColor: baseColor.withOpacity(0.5),
-                          shadowColor: baseColor.withOpacity(0.5),
-                          selectedShadowColor: baseColor,
-                          selectedColor: baseColor,
+          blocchiCategorie(
+            appProvider: appProvider,
+            baseColor: baseColor,
+            textColor: textColor,
+          ),
+          Container(
+            width: 250,
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: baseColor,
+                foregroundColor: textColor,
+                elevation: 6,
+                shadowColor: buttonColor.withOpacity(0.6),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(_radius),
+                ),
+                padding: EdgeInsets.symmetric(vertical: 16),
+                textStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              onPressed:  () {
 
-                          label: Text(
-                            'Categoria $index',
-                            style: TextStyle(
-                              color: textColor,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          selected: _selectedChip == index,
-                          onSelected: (selected) {
-                            setState(() {
-                              _selectedChip = selected ? index : null;
-                            });
-                          },
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(_radius),
-                          ),
-                        );
-                      }).toList(),
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => CreaCategoriaView(),
                     ),
-                  ],
-                ),
-              ),
+                  );
+                },
+              child: Text('Crea Categoria'),
             ),
-            Container(
-                width:250,
+          ),
+          SizedBox(height: 16),
+
+          SizedBox(height: 40),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Container(
+                width: 150,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: baseColor,
+                    backgroundColor: buttonColor,
                     foregroundColor: textColor,
-                    elevation: 6,
+                    elevation: 8,
                     shadowColor: buttonColor.withOpacity(0.6),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(_radius),
                     ),
-                    padding: EdgeInsets.symmetric(vertical: 16),
+                    padding: EdgeInsets.symmetric(vertical: 13),
                     textStyle: TextStyle(
-                      fontSize: 18,
+                      fontSize: 16,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  onPressed: () {
+                  onPressed: _isButtonEnabled
+                      ?() {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => AddList()),
+                      MaterialPageRoute(
+                        builder: (context) => AddList(nome: _controller.text),
+                      ),
                     );
-                  },
-                  child: Text('Crea Categoria'),
+                  }: null,
+                  child: Text('Avanti'),
                 ),
-            ),
-            SizedBox(height: 16),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
 
-            SizedBox(height: 40),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Container(
-                  width: 150,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: buttonColor,
-                      foregroundColor: textColor,
-                      elevation: 8,
-                      shadowColor: buttonColor.withOpacity(0.6),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(_radius),
-                      ),
-                      padding: EdgeInsets.symmetric(vertical: 13 ),
-                      textStyle: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
+class blocchiCategorie extends StatefulWidget {
+  final GestoreApp appProvider;
+  final Color baseColor;
+  final Color textColor;
+
+  blocchiCategorie({
+    Key? key,
+    required this.appProvider,
+    required this.baseColor,
+    required this.textColor,
+  }) : super(key: key);
+
+  @override
+  _BlocchiCategorieState createState() => _BlocchiCategorieState();
+}
+
+class _BlocchiCategorieState extends State<blocchiCategorie> {
+  int? _selectedChip;
+
+  String testoCategoria(int index) {
+    if (widget.appProvider.categorie.isEmpty) {
+      return "Nessuna Categoria";
+    } else {
+      return widget.appProvider.categorie[index].nomeCategoria;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final appProvider = Provider.of<GestoreApp>(context);
+    return SizedBox(
+      height: 70,
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Column(
+          children: [
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: List.generate(widget.appProvider.categorie.length, (
+                index,
+              ) {
+                return ChoiceChip.elevated(
+                  elevation: 8,
+                  backgroundColor: widget.baseColor.withOpacity(0.5),
+                  shadowColor: widget.baseColor.withOpacity(0.5),
+                  selectedShadowColor: widget.baseColor,
+                  selectedColor: widget.baseColor,
+                  label: Text(
+                    testoCategoria(index),
+                    style: TextStyle(
+                      color: widget.textColor,
+                      fontWeight: FontWeight.w500,
                     ),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => AddList()),
-                      );
-                    },
-                    child: Text('Avanti'),
                   ),
-                ),
-              ],
+                  selected: _selectedChip == index,
+                  onSelected: (selected) {
+                    setState(() {
+                      _selectedChip = selected ? index : null;
+                      appProvider.indiceCategoria = _selectedChip!;
+                    });
+                  },
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                );
+              }),
             ),
           ],
         ),
-
+      ),
     );
   }
 }

@@ -1,11 +1,21 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gestore_spese/Model/ListaSpese.dart';
+import 'package:gestore_spese/Model/Spesa.dart';
+import 'package:gestore_spese/View/CreaProdottoView.dart';
 import 'package:provider/provider.dart';
 
 import '../Model/GestoreApp.dart';
+import 'ListeView.dart';
 import 'SpesaView.dart';
 
 class AddList extends StatelessWidget{
+  final String nome;
+
+  AddList({super.key, required this.nome});
+
+
+
   final TextStyle sectionTitleStyle = TextStyle(
     fontSize: 20,
     fontWeight: FontWeight.bold,
@@ -31,6 +41,8 @@ class AddList extends StatelessWidget{
       Shadow(color: Colors.black12, offset: Offset(1, 1), blurRadius: 1)
     ],
   );
+
+
 
   @override
 
@@ -78,9 +90,9 @@ class AddList extends StatelessWidget{
                scrollDirection: Axis.vertical,
                child: Wrap(
 
-                 children: List.generate(10, (index){
+                 children: List.generate(appProvider.prodotti.length, (index){
 
-                   return SpesaView();
+                   return SpesaView(index: index);
                }
 
                ),
@@ -109,7 +121,7 @@ class AddList extends StatelessWidget{
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => AddList()),
+                    MaterialPageRoute(builder: (context) => CreaProdottoView()),
                   );
                 },
                 child: Text('Crea Prodotto'),
@@ -126,7 +138,17 @@ class AddList extends StatelessWidget{
 
       floatingActionButton:FloatingActionButton.extended(
         onPressed: (){
+          ListaSpese l = new ListaSpese(nome);
+          //l.aggiungiSpesa(new Spesa(, _data, _quantita))
+          appProvider.CreaLista(l);
 
+          Navigator.of(context).popUntil((route) => route.isFirst);
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ListeView(),
+            ),
+          );
         },
 
           elevation: 6,
