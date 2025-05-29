@@ -30,50 +30,29 @@ class BloccoLista extends StatelessWidget {
           borderRadius: BorderRadius.circular(20),
         ),
 
-        child: Row(
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
 
           children: [
-            Column(
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
+
               children: [
-                Text(
-                  l.nomeLista,
-                  style: GoogleFonts.b612(
-                    textStyle: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.w300,
-                      fontSize: 25,
+                Expanded(
+                  child: Text(
+                    l.nomeLista,
+                    style: GoogleFonts.b612(
+                      textStyle: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w300,
+                        fontSize: 23,
+                      ),
                     ),
+                    maxLines: 5,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
 
-                IconButton(
-                  onPressed: () {
-                    confermaPopup(context, l);
-
-                  },
-                  icon: Icon(Icons.delete),
-                  color: Colors.red,
-                ),
-              ],
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('Data di Creazione: ${l.stampaData()}', style: TextStyle(
-                  fontWeight: FontWeight.bold
-                ),),
-                Text('Totale: ${l.spesaTotale}€', style: TextStyle(
-                    fontWeight: FontWeight.bold
-                ),),
-              ],
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
                 IconButton(
                   onPressed: () {
                     Navigator.push(
@@ -83,6 +62,40 @@ class BloccoLista extends StatelessWidget {
                   },
                   icon: Icon(Icons.arrow_forward_ios),
                   color: Colors.black,
+                ),
+
+
+
+                  ],
+                ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                IconButton(
+                  onPressed: () {
+                    confermaPopup(context, l);
+
+                  },
+                  icon: Icon(Icons.delete),
+                  color: Colors.red,
+                ),
+
+                SizedBox(width: 15),
+                Flexible(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Data di Creazione: ${l.stampaData()}', style: TextStyle(
+                          fontWeight: FontWeight.bold
+                      ),
+                      ),
+                      Text('Totale: ${l.spesaTotale.toStringAsPrecision(3)}€', style: TextStyle(
+                          fontWeight: FontWeight.bold
+                      ),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),

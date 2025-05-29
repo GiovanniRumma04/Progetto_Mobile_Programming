@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:gestore_spese/Model/GestoreApp.dart';
 import 'package:gestore_spese/View/AddList.dart';
 import 'package:gestore_spese/View/CreaCategoriaView.dart';
@@ -57,6 +58,9 @@ class _InfoListaScreenState extends State<InfoListaScreen> {
             width: 200,
             child: TextField(
 
+              inputFormatters: [
+                LengthLimitingTextInputFormatter(30),
+              ],
               controller: _controller,
               textAlign: TextAlign.center,
               decoration: InputDecoration(

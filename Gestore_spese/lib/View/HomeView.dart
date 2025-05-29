@@ -123,10 +123,6 @@ class HomeView extends StatelessWidget {
                 Text("LISTE RECENTI", style: sectionTitleStyle),
                 TextButton(
                   onPressed: () {
-                    appProvider.creaSpesa(appProvider.tutteLeListe[0],new Spesa(new Prodotto('pane', 2.5, new Categoria('cibo'), 'abcd'), DateTime.now(), 5));
-                    appProvider.creaSpesa(appProvider.tutteLeListe[0],new Spesa(new Prodotto('uova', 2.5, new Categoria('cibo'), 'abcd'), DateTime.now(), 5));
-                    appProvider.creaSpesa(appProvider.tutteLeListe[0],new Spesa(new Prodotto('latte', 2.5, new Categoria('cibo'), 'abcd'), DateTime.now(), 5));
-                    appProvider.creaSpesa(appProvider.tutteLeListe[0],new Spesa(new Prodotto('altro', 2.5, new Categoria('cibo'), 'abcd'), DateTime.now(), 5));
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => ListeView()),

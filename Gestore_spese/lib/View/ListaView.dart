@@ -128,7 +128,7 @@ class ListaView extends StatelessWidget {
             Text('Dettagli Lista: '),
             Text('Data di Creazione: ${l.stampaData()}'),
             Text(
-              'Totale: ' + l.spesaTotale.toString() + "€",
+              'Totale: ' + l.spesaTotale.toStringAsPrecision(3) + "€",
               style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
             ),
             Flexible(

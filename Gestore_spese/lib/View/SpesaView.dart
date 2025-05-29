@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:gestore_spese/Model/GestoreApp.dart';
+import 'package:gestore_spese/Model/Prodotto.dart';
+import 'package:gestore_spese/Model/Spesa.dart';
 import 'package:provider/provider.dart';
+
+import 'SpesaProdottoView.dart';
 
 class SpesaView extends StatefulWidget {
   int index;
@@ -14,11 +18,14 @@ class SpesaView extends StatefulWidget {
 class _SpesaViewState extends State<SpesaView> {
   bool _selected = false;
   int _count = 0;
+  bool _isCheckboxEnabled = false;
 
 
   @override
   Widget build(BuildContext context) {
+
     final appProvider = Provider.of<GestoreApp>(context);
+
     return Card(
 
       elevation: 6,
@@ -39,9 +46,20 @@ class _SpesaViewState extends State<SpesaView> {
                   activeColor: Color(0xFFFFCB77),
                   shape: CircleBorder(),
                   onChanged: (bool? newVal) {
+                    _isCheckboxEnabled?
                     setState(() {
+
                       _selected = newVal ?? false;
-                    });
+                      Spesa s = new Spesa(appProvider.prodotti[widget.index], DateTime.now(), _count);
+                      Prodotto p = s.p;
+                      if(_selected == true){
+                        appProvider.spese.add(s);
+                        print(appProvider.spese.toString());
+                      }else if(_selected == false){
+                        appProvider.spese.removeWhere((s) => s.p == p);
+                        print(appProvider.spese.toString());
+                      }
+                    }):null;
                   },
                 ),
                 SizedBox(width: 8),
@@ -59,7 +77,7 @@ class _SpesaViewState extends State<SpesaView> {
                     ),
                     SizedBox(height: 4),
                     Text(
-                      appProvider.prodotti[widget.index].note,
+                      appProvider.prodotti[widget.index].c.nomeCategoria,
                       style: TextStyle(
                         fontSize: 14,
                         color: Colors.black54,
@@ -79,6 +97,14 @@ class _SpesaViewState extends State<SpesaView> {
                   onPressed: () {
                     setState(() {
                       if (_count > 0) _count--;
+                      if(_count==0) {
+                        _selected = false;
+                        _isCheckboxEnabled=false;
+                        Spesa s = new Spesa(appProvider.prodotti[widget.index], DateTime.now(), _count);
+                        Prodotto p = s.p;
+                        appProvider.spese.removeWhere((s) => s.p == p);
+                        print(appProvider.spese.toString());
+                      };
                     });
                   },
                 ),
@@ -94,6 +120,7 @@ class _SpesaViewState extends State<SpesaView> {
                   icon: Icon(Icons.add_circle_outline,color: Color(0xFFFFCB77)),
                   onPressed: () {
                     setState(() {
+                      _isCheckboxEnabled = true;
                       _count++;
                     });
                   },
@@ -104,7 +131,12 @@ class _SpesaViewState extends State<SpesaView> {
                   icon: Icon(Icons.arrow_right_sharp,size: 30,),
                   color: Color(0xFFFE6D73),
                  padding: EdgeInsets.all(0),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => SpesaProdottoView(true, appProvider.spese[widget.index])),
+                    );
+                  },
 
                 ),
               ],

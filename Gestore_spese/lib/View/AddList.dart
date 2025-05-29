@@ -9,13 +9,16 @@ import '../Model/GestoreApp.dart';
 import 'ListeView.dart';
 import 'SpesaView.dart';
 
-class AddList extends StatelessWidget{
+class AddList extends StatefulWidget{
   final String nome;
 
   AddList({super.key, required this.nome});
 
+  @override
+  State<AddList> createState() => _AddListState();
+}
 
-
+class _AddListState extends State<AddList> {
   final TextStyle sectionTitleStyle = TextStyle(
     fontSize: 20,
     fontWeight: FontWeight.bold,
@@ -23,6 +26,7 @@ class AddList extends StatelessWidget{
       Shadow(color: Colors.black38, offset: Offset(1, 1), blurRadius: 2)
     ],
   );
+
   final TextStyle textButtonStyle = TextStyle(
     fontSize: 16,
     color:Color(0xFF17C3B2) ,
@@ -48,6 +52,7 @@ class AddList extends StatelessWidget{
 
   Widget build(BuildContext context) {
     final appProvider = Provider.of<GestoreApp>(context);
+    appProvider.spese.removeRange(0, appProvider.spese.length);
     return Scaffold(
 
        appBar: AppBar(
@@ -138,7 +143,8 @@ class AddList extends StatelessWidget{
 
       floatingActionButton:FloatingActionButton.extended(
         onPressed: (){
-          ListaSpese l = new ListaSpese(nome);
+          ListaSpese l = new ListaSpese(widget.nome);
+
           //l.aggiungiSpesa(new Spesa(, _data, _quantita))
           appProvider.CreaLista(l);
 
@@ -164,7 +170,5 @@ class AddList extends StatelessWidget{
     );
 
   }
-
-
 
 }

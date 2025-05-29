@@ -25,6 +25,11 @@ class Spesa {
     return "${_data.day}/${_data.month}/${_data.year}";
   }
 
+  @override
+  String toString() {
+    return 'Spesa{p: $p, _data: $_data, _quantita: $_quantita}';
+  }
+
   /*Map<String, dynamic> toJson(){
     return{
       'prodotto': p.toJson(),
@@ -36,4 +41,7 @@ class Spesa {
   factory Spesa.fromJson(Map<String, dynamic> json){
     return Spesa(json['prodotto'],json['data'],json['quantità']);
   }*/
+
+
+
 }
