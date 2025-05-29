@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import '../Model/Prodotto.dart';
 import '../Model/Spesa.dart';
 
 class SpesaProdottoView extends StatelessWidget {
 
   final bool mostraTutto;
-  final Spesa spesa;
+  final Prodotto p;
+  final int quantita ;
 
-  const SpesaProdottoView(this.mostraTutto, this.spesa, {super.key});
+  const SpesaProdottoView(this.mostraTutto, this.p, {super.key, required this.quantita});
 
   @override
   Widget build(BuildContext context) {
@@ -23,19 +25,18 @@ class SpesaProdottoView extends StatelessWidget {
         child: ListView(
           shrinkWrap: true,
           children: [
-            Text('NOME PRODOTTO:\n${spesa.p.nomeprodotto}', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF227C9D))),
+            Text('NOME PRODOTTO:\n${p.nomeprodotto}', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF227C9D))),
             SizedBox(height: 20),
-            Text('CATEGORIA:\n${spesa.p.c.nomeCategoria}', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF17C382))),
+            Text('CATEGORIA:\n${p.c.nomeCategoria}', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF17C382))),
             SizedBox(height: 20),
-            Text('PREZZO:\n€${spesa.p.prezzo.toStringAsFixed(2)}', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFFFFC877))),
+            Text('PREZZO:\n€${p.prezzo.toStringAsFixed(2)}', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFFFFC877))),
             SizedBox(height: 20),
             if(mostraTutto)...[
-              Text('QUANTITA\':\n${spesa.quantita}', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFFFE6D73))),
+              Text('QUANTITA\':\n${quantita}', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFFFE6D73))),
               SizedBox(height: 20),
-              Text('DATA:\n${spesa.data}', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF227C9D))),
-              SizedBox(height: 20),
+
             ],
-            Text('NOTE:\n${spesa.p.note}', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black87)),
+            Text('NOTE:\n${p.note}', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black87)),
           ],
         ),
       ),

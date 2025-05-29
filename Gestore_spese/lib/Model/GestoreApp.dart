@@ -8,13 +8,8 @@ import 'Categoria.dart';
 
 class GestoreApp extends ChangeNotifier {
   List<Prodotto> prodotti = [];
-  List<Spesa> spese = [];
   List<Categoria> categorie = [];
-  List<ListaSpese> tutteLeListe = [
-    ListaSpese('prova1'),
-    ListaSpese('prova2'),
-    ListaSpese('prova3'),
-  ];
+  List<ListaSpese> tutteLeListe = [];
   late int indiceCategoria;
 
   void creaProd(Prodotto p) {
@@ -27,19 +22,11 @@ class GestoreApp extends ChangeNotifier {
     notifyListeners();
   }
 
-  void CreaLista(ListaSpese ls) {
-    for (Spesa s in spese) {
-      ls.aggiungiSpesa(s);
-    }
+void CreaLista(ListaSpese ls ){
 
-    tutteLeListe.add(ls);
-    notifyListeners();
-  }
-
-  void creaSpesa(ListaSpese ls, Spesa s) {
-    ls.aggiungiSpesa(s);
-    notifyListeners();
-  }
+tutteLeListe.add(ls);
+notifyListeners();
+}
 
   void eliminaLista(ListaSpese l) {
     tutteLeListe.remove(l);

@@ -7,22 +7,42 @@ import 'package:provider/provider.dart';
 import 'SpesaProdottoView.dart';
 
 class SpesaView extends StatefulWidget {
-  int index;
-
-  SpesaView({required this.index});
+  final int index;
+  final bool selected;
+   final int count ;
+     final Function(Spesa?) notifcaCambiamneto;
+  SpesaView({super.key, required this.index,required this.selected,required this.count,required this.notifcaCambiamneto});
 
   @override
   _SpesaViewState createState() => _SpesaViewState();
 }
 
+
+
+
+
 class _SpesaViewState extends State<SpesaView> {
-  bool _selected = false;
-  int _count = 0;
-  bool _isCheckboxEnabled = false;
+  late bool selected;
+  late int count;
+
+  void initState() {
+    super.initState();
+    selected = widget.selected; // copia esplicita
+    count = widget.count;       // copia esplicita
+  }
+
+  void updateData(Prodotto? p,quantita){
+   widget.notifcaCambiamneto(
+     selected ?  Spesa(p!, DateTime.now(), quantita) : null
+   );
+
+
+  }
 
 
   @override
   Widget build(BuildContext context) {
+
 
     final appProvider = Provider.of<GestoreApp>(context);
 
@@ -42,24 +62,17 @@ class _SpesaViewState extends State<SpesaView> {
               children: [
                 // Checkbox rotondo
                 Checkbox(
-                  value: _selected,
+                  value: selected,
                   activeColor: Color(0xFFFFCB77),
                   shape: CircleBorder(),
                   onChanged: (bool? newVal) {
-                    _isCheckboxEnabled?
-                    setState(() {
 
-                      _selected = newVal ?? false;
-                      Spesa s = new Spesa(appProvider.prodotti[widget.index], DateTime.now(), _count);
-                      Prodotto p = s.p;
-                      if(_selected == true){
-                        appProvider.spese.add(s);
-                        print(appProvider.spese.toString());
-                      }else if(_selected == false){
-                        appProvider.spese.removeWhere((s) => s.p == p);
-                        print(appProvider.spese.toString());
-                      }
-                    }):null;
+                    setState(() {
+                     selected = newVal ?? false;
+                       count = selected? 1 :0;
+                     updateData(appProvider.prodotti[widget.index], count);
+
+                    });
                   },
                 ),
                 SizedBox(width: 8),
@@ -96,22 +109,25 @@ class _SpesaViewState extends State<SpesaView> {
                   icon: Icon(Icons.remove_circle_outline,color: Color(0xFFFFCB77),),
                   onPressed: () {
                     setState(() {
-                      if (_count > 0) _count--;
-                      if(_count==0) {
-                        _selected = false;
-                        _isCheckboxEnabled=false;
-                        Spesa s = new Spesa(appProvider.prodotti[widget.index], DateTime.now(), _count);
-                        Prodotto p = s.p;
-                        appProvider.spese.removeWhere((s) => s.p == p);
-                        print(appProvider.spese.toString());
-                      };
+
+                      if(count > 0) {
+                        count = count-1;
+                        updateData(appProvider.prodotti[widget.index],
+                            count );
+
+                      }else {
+                        count=0;
+                      }
+
+                      selected = (count>0) ? true : false;
+
                     });
                   },
                 ),
 
                 // Conteggio
                 Text(
-                  '$_count',
+                  '$count',
                   style: TextStyle(fontSize: 16),
                 ),
 
@@ -120,8 +136,9 @@ class _SpesaViewState extends State<SpesaView> {
                   icon: Icon(Icons.add_circle_outline,color: Color(0xFFFFCB77)),
                   onPressed: () {
                     setState(() {
-                      _isCheckboxEnabled = true;
-                      _count++;
+                     count =count +1;
+                     selected = (count>0)? true : false;
+
                     });
                   },
                 ),
@@ -134,7 +151,7 @@ class _SpesaViewState extends State<SpesaView> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => SpesaProdottoView(true, appProvider.spese[widget.index])),
+                      MaterialPageRoute(builder: (context) => SpesaProdottoView(true, appProvider.prodotti[widget.index], quantita: count,)),
                     );
                   },
 

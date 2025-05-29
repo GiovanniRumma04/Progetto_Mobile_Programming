@@ -19,6 +19,9 @@ class AddList extends StatefulWidget{
 }
 
 class _AddListState extends State<AddList> {
+
+  Map<int,Spesa> ListaSpesaMomentanea= {};
+
   final TextStyle sectionTitleStyle = TextStyle(
     fontSize: 20,
     fontWeight: FontWeight.bold,
@@ -46,13 +49,23 @@ class _AddListState extends State<AddList> {
     ],
   );
 
+  void aggiornaSpesa(int index , Spesa? nuovaSpesa) {
 
+     if(nuovaSpesa != null){
+
+       ListaSpesaMomentanea[index]=nuovaSpesa;
+     }else {
+
+       ListaSpesaMomentanea.remove(index);
+     }
+
+  }
 
   @override
 
   Widget build(BuildContext context) {
     final appProvider = Provider.of<GestoreApp>(context);
-    appProvider.spese.removeRange(0, appProvider.spese.length);
+
     return Scaffold(
 
        appBar: AppBar(
@@ -97,7 +110,12 @@ class _AddListState extends State<AddList> {
 
                  children: List.generate(appProvider.prodotti.length, (index){
 
-                   return SpesaView(index: index);
+                   return SpesaView(
+                     index: index,
+                     selected: ListaSpesaMomentanea.containsKey(index),
+                     count:  ListaSpesaMomentanea[index]?.quantita ?? 0,
+                       notifcaCambiamneto : (s) => aggiornaSpesa(index, s)
+                   );
                }
 
                ),
@@ -143,9 +161,10 @@ class _AddListState extends State<AddList> {
 
       floatingActionButton:FloatingActionButton.extended(
         onPressed: (){
-          ListaSpese l = new ListaSpese(widget.nome);
 
-          //l.aggiungiSpesa(new Spesa(, _data, _quantita))
+
+        ListaSpese l = ListaSpese(widget.nome)  ;
+        l.lista.addAll(ListaSpesaMomentanea.values.toList());
           appProvider.CreaLista(l);
 
           Navigator.of(context).popUntil((route) => route.isFirst);
@@ -172,3 +191,4 @@ class _AddListState extends State<AddList> {
   }
 
 }
+
