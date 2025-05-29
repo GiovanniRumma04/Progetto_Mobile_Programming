@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:gestore_spese/Model/GestoreApp.dart';
 import 'package:gestore_spese/Model/ListaSpese.dart';
 import 'package:gestore_spese/Model/Spesa.dart';
+import 'package:provider/provider.dart';
 
 /*class ListaView extends StatelessWidget {
   final ListaSpese listaSpese;
@@ -82,11 +84,13 @@ import 'package:gestore_spese/Model/Spesa.dart';
 
 class ListaView extends StatelessWidget {
   final ListaSpese l;
+  final indexL;
 
-  const ListaView({super.key, required this.l});
+  const ListaView({super.key, required this.l, this.indexL});
 
   @override
   Widget build(BuildContext context) {
+    final appProvider = Provider.of<GestoreApp>(context);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xFF227C9D),
@@ -131,7 +135,7 @@ class ListaView extends StatelessWidget {
               child: ListView.builder(
                 itemCount: l.lista.length,
                 itemBuilder: (context, index) {
-                  return CustomCards(s: l.lista[index]);
+                  return CustomCards(s: l.lista[index], indexList: indexL, indexSpesa: index);
                 },
               ),
             ),
@@ -144,10 +148,13 @@ class ListaView extends StatelessWidget {
 
 class CustomCards extends StatelessWidget {
   final Spesa s;
-  const CustomCards({super.key, required this.s});
+  final int indexSpesa;
+  final int indexList;
+  const CustomCards({super.key, required this.s, required this.indexList, required this.indexSpesa});
 
   @override
   Widget build(BuildContext context) {
+    final appProvider = Provider.of<GestoreApp>(context);
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -219,7 +226,9 @@ class CustomCards extends StatelessWidget {
             children: [
               IconButton(onPressed: () {}, icon: Icon(Icons.arrow_forward_ios)),
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  confermaPopup(context, indexSpesa, indexList);
+                },
                 icon: Icon(Icons.delete),
                 color: Colors.red,
               ),
@@ -229,4 +238,82 @@ class CustomCards extends StatelessWidget {
       ],
     );
   }
+}
+
+void confermaPopup(BuildContext context, int indexS, int indexL) {
+  showModalBottomSheet(
+    context: context,
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
+    builder: (context) => Container(
+      height: 250,
+      child: Padding(
+          padding: EdgeInsets.all(20),
+
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Center(
+                    child: Text(
+                      'Sei sicuro di voler cancella questa spesa?'
+                      ,style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold
+                    ),)
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    ElevatedButton(
+                        onPressed: (){
+                          Provider.of<GestoreApp>(context, listen: false).eliminaSpesa(indexS, indexL);
+                          Navigator.pop(context);
+                        },
+
+                        style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            padding: EdgeInsets.symmetric(vertical: 16, horizontal: 30),
+                            elevation: 6,
+                            backgroundColor: Color(0xFFFE6D73),
+                            shadowColor: Color(0xFFFE6D73).withOpacity(0.6)
+                        ),
+                        child: Text(
+                          'Conferma',
+                          style: TextStyle(color: Colors.white, fontSize: 18,
+                            fontWeight: FontWeight.bold,),)
+
+                    ),
+                    ElevatedButton(
+                        onPressed: (){
+                          Navigator.pop(context);
+                        },
+
+
+
+                        style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            padding: EdgeInsets.symmetric(vertical: 16, horizontal: 30),
+                            elevation: 6,
+                            backgroundColor: Colors.white,
+                            shadowColor: Colors.black.withOpacity(0.6)
+                        ),
+
+                        child: Text(
+                          'Annulla', style: TextStyle(
+                          color: Color(0xFFFE6D73),
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),))
+                  ],
+                )
+
+              ]
+          )
+      ),
+    ),
+  );
 }

@@ -78,7 +78,7 @@ class BloccoLista extends StatelessWidget {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => ListaView(l: l)),
+                      MaterialPageRoute(builder: (context) => ListaView(l: l, indexL: indice)),
                     );
                   },
                   icon: Icon(Icons.arrow_forward_ios),
