@@ -90,37 +90,7 @@ class _InfoListaScreenState extends State<InfoListaScreen> {
 
           SizedBox(height: 16),
 
-          blocchiCategorie(
-            appProvider: appProvider,
-            baseColor: baseColor,
-            textColor: textColor,
-          ),
-          Container(
-            width: 250,
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: baseColor,
-                foregroundColor: textColor,
-                elevation: 6,
-                shadowColor: buttonColor.withOpacity(0.6),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(_radius),
-                ),
-                padding: EdgeInsets.symmetric(vertical: 16),
-                textStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-              onPressed:  () {
 
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => CreaCategoriaView(),
-                    ),
-                  );
-                },
-              child: Text('Crea Categoria'),
-            ),
-          ),
           SizedBox(height: 16),
 
           SizedBox(height: 40),
