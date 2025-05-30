@@ -9,7 +9,9 @@ class Prodotto {
 
   late String _note;
 
-  Prodotto(this._nomeprodotto, this._prezzo, this._c, this._note){
+  final String id; 
+
+  Prodotto(this._nomeprodotto, this._prezzo, this._c, this._note, this.id){
     _c.numSpese++;
   }
 

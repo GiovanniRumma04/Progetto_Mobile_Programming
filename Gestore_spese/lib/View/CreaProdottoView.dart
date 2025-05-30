@@ -20,6 +20,7 @@ class _CreaProdottoViewState extends State<CreaProdottoView> {
   String? categoria;
   double? prezzo;
   String? note;
+  String? id;
 
   final Color baseColor = Color(0xFFFFCB77);
   final Color textColor = Color(0xFFFFFFFF);
@@ -223,6 +224,7 @@ const SizedBox(height: 30),
                                 prezzo ?? 0.0,
                                 categoriaObj,
                                 note ?? "Nessuna nota",
+                                id ?? "ID_Generico", 
                               );
 
 
