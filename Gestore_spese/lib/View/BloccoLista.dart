@@ -5,12 +5,18 @@ import 'package:gestore_spese/View/ListaView.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-class BloccoLista extends StatelessWidget {
+class BloccoLista extends StatefulWidget {
   final ListaSpese l;
   final int indice;
 
 
   const BloccoLista({super.key, required this.l, required this.indice});
+
+  @override
+  State<BloccoLista> createState() => _BloccoListaState();
+}
+
+class _BloccoListaState extends State<BloccoLista> {
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +46,7 @@ class BloccoLista extends StatelessWidget {
               children: [
                 Expanded(
                   child: Text(
-                    l.nomeLista,
+                    widget.l.nomeLista,
                     style: GoogleFonts.b612(
                       textStyle: TextStyle(
                         color: Colors.black,
@@ -57,7 +63,7 @@ class BloccoLista extends StatelessWidget {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => ListaView(l: l, indexL: indice)),
+                      MaterialPageRoute(builder: (context) => ListaView(l: widget.l, indexL: widget.indice)),
                     );
                   },
                   icon: Icon(Icons.arrow_forward_ios),
@@ -73,12 +79,14 @@ class BloccoLista extends StatelessWidget {
               children: [
                 IconButton(
                   onPressed: () {
-                    confermaPopup(context, l);
+                    confermaPopup(context, widget.l);
 
                   },
                   icon: Icon(Icons.delete),
                   color: Colors.red,
                 ),
+
+
 
                 SizedBox(width: 15),
                 Flexible(
@@ -86,11 +94,11 @@ class BloccoLista extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Data di Creazione: ${l.stampaData()}', style: TextStyle(
+                      Text('Data di Creazione: ${widget.l.stampaData()}', style: TextStyle(
                           fontWeight: FontWeight.bold
                       ),
                       ),
-                      Text('Totale: ${l.spesaTotale.toString()}€', style: TextStyle(
+                      Text('Totale: ${widget.l.spesaTotale.toString()}€', style: TextStyle(
                           fontWeight: FontWeight.bold
                       ),
                       ),
