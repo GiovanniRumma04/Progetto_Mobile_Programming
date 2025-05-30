@@ -81,17 +81,14 @@ class _SpesaViewState extends State<SpesaView> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Flexible(
-
-                      child: Text(
-                        appProvider.prodotti[widget.index].nomeprodotto,
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black87,
-                        ),
+                    Text(
+                      appProvider.prodotti[widget.index].nomeprodotto,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black87,
                       ),
                     ),
                     //SizedBox(height: 4),
