@@ -22,7 +22,7 @@ class GestoreApp extends ChangeNotifier {
     notifyListeners();
   }
 
-void CreaLista(ListaSpese ls ){
+void CreaLista(ListaSpese ls){
 
 tutteLeListe.add(ls);
 notifyListeners();

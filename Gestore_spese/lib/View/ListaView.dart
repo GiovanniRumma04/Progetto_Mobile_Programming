@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gestore_spese/Model/GestoreApp.dart';
 import 'package:gestore_spese/Model/ListaSpese.dart';
 import 'package:gestore_spese/Model/Spesa.dart';
+import 'package:gestore_spese/View/SpesaProdottoView.dart';
 import 'package:provider/provider.dart';
 
 /*class ListaView extends StatelessWidget {
@@ -104,27 +105,22 @@ class ListaView extends StatelessWidget {
 
           children: [
             Container(
-              height: 50,
-              margin: EdgeInsets.all(8),
-              padding: EdgeInsets.all(12),
+              padding: EdgeInsets.symmetric(horizontal: 12),
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.2),
-                    spreadRadius: 2,
-                    blurRadius: 8,
-                    offset: Offset(0, 0),
-                  ),
-                ],
-
+                borderRadius: BorderRadius.circular(12),
               ),
               child: TextField(
-                decoration: InputDecoration(labelText: 'Cerca un Prodotto...', border: InputBorder.none),
-
+                decoration: InputDecoration(
+                  icon: Icon(Icons.search, color: Colors.black54),
+                  hintText: "Ricerca...",
+                  border: InputBorder.none,
+                ),
               ),
             ),
+
+            SizedBox(height: 20),
+
             Text('Dettagli Lista: '),
             Text('Data di Creazione: ${l.stampaData()}'),
             Text(
@@ -224,7 +220,12 @@ class CustomCards extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              IconButton(onPressed: () {}, icon: Icon(Icons.arrow_forward_ios)),
+              IconButton(onPressed: () {
+                Navigator.push(
+                    context,
+                  MaterialPageRoute(builder: (context) => SpesaProdottoView(true, s.p, quantita: s.quantita))
+                );
+              }, icon: Icon(Icons.arrow_forward_ios)),
               IconButton(
                 onPressed: () {
                   confermaPopup(context, indexSpesa, indexList);
@@ -266,7 +267,7 @@ void confermaPopup(BuildContext context, int indexS, int indexL) {
                   children: [
                     ElevatedButton(
                         onPressed: (){
-                       //   Provider.of<GestoreApp>(context, listen: false).eliminaSpesa(indexS, indexL);
+                       //Provider.of<GestoreApp>(context, listen: false).eliminaSpesa(indexS, indexL);
                           Navigator.pop(context);
                         },
 
