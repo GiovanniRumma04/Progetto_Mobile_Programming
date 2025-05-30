@@ -25,8 +25,8 @@ class ProdottoView extends StatelessWidget {
       width: double.infinity,
       height: widgetHeight,
       child: Card(
-        color: const Color(0xFFFEF9EF),
-        elevation: 2,
+        color:Colors.white,
+        elevation: 4,
         clipBehavior: Clip.antiAlias,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
@@ -42,11 +42,11 @@ class ProdottoView extends StatelessWidget {
               children: [
                 CircleAvatar(
                   radius: (widgetHeight - 24) / 2,
-                  backgroundColor: colorScheme.primary.withOpacity(0.1),
+                  backgroundColor:Color(0xFFFE6D73).withOpacity(0.1),
                   child: Icon(
                     icona,
                     size: widgetHeight * 0.35,
-                    color: colorScheme.primary,
+                    color: Color(0xFFFE6D73),
                   ),
                 ),
                 const SizedBox(width: 16),

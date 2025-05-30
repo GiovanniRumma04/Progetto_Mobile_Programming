@@ -26,7 +26,6 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   String query = '';
 
-
   @override
   Widget build(BuildContext context) {
 
@@ -63,108 +62,69 @@ class _HomeViewState extends State<HomeView> {
       appBar: AppBar(
         backgroundColor: Color(0xFF227C9D),
         title: Text(
-          "Benvenuto nella Home",
+          "Prodotti",
           style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // TextField personalizzato
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 12),
-              decoration: BoxDecoration(
-                color: Color(0xFFFFCB77),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: TextField(
-                onChanged: (value) {
-                  setState(() {
-                    query = value;
-                  });
-                },
-                decoration: InputDecoration(
-                  icon: Icon(Icons.search, color: Colors.black54),
-                  hintText: "Ricerca...",
-                  border: InputBorder.none,
-                ),
-              ),
+      body: Column(
+
+        children: [
+          // TextField personalizzato
+          SizedBox(height: 20,),
+          Container(
+
+            width: 300,
+            padding: EdgeInsets.symmetric(horizontal: 12),
+            decoration: BoxDecoration(
+              color: Color(0xFFFFCB77),
+              borderRadius: BorderRadius.circular(12),
+              boxShadow: [
+                BoxShadow(
+                  color:  Color(0xFFFFCB77).withOpacity(0.5),
+                  blurRadius: 5,
+                  offset: const Offset(2, 3),
+                  spreadRadius: 2,
+                  
+                )
+              ]
             ),
 
-            SizedBox(height: 25),
-
-            // Sezione Prodotti Recenti
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text("PRODOTTI RECENTI", style: sectionTitleStyle),
-                TextButton(
-                  onPressed: () {},
-
-                  child: Text("Scopri di più", style: textButtonStyle),
-                ),
-              ],
-            ),
-            SizedBox(height: 10),
-            Container(
-              width: double.infinity,
-              height: 350,
-              color: Colors.grey[100],
-              child: ListView.builder(
-                itemCount: min(prodottiFiltrati.length, 3),
-
-                itemBuilder: (context, index) {
-
-                    return ProdottoView(
-                      prodotto: prodottiFiltrati[(prodottiFiltrati.length-1)-index],
-                      icona: Icons.icecream_outlined,
-                    );
-
-                },
+            child: TextField(
+              onChanged: (value) {
+                setState(() {
+                  query = value;
+                });
+              },
+              decoration: InputDecoration(
+                icon: Icon(Icons.search, color: Colors.black54),
+                hintText: "Ricerca...",
+                border: InputBorder.none,
               ),
             ),
+          ),
+          SizedBox(height: 20,),
+          Container(
+            height: 500,
+            child: ListView.builder(
+              itemCount: prodottiFiltrati.length,
+              scrollDirection: Axis.vertical ,
 
-            SizedBox(height: 25),
+              itemBuilder: (context, index) {
 
-            // Sezione Liste Recenti
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text("LISTE RECENTI", style: sectionTitleStyle),
-                TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => ListeView()),
-                    );
-                  },
-                  child: Text("Scopri di più", style: textButtonStyle),
-                ),
-              ],
-            ),
-            SizedBox(height: 10),
-            Container(
-              width: double.infinity,
-              height: 350,
-              color: Colors.grey[100],
-              child: ListView.builder(
-                itemCount: min(appProvider.tutteLeListe.length, 3),
-
-                itemBuilder: (context, index) {
-                  final elemento = appProvider.tutteLeListe[(appProvider.tutteLeListe.length-1)-index];
-                  return BloccoLista(
-                    l: elemento,
-                    indice: index,
+                  return ProdottoView(
+                    prodotto: prodottiFiltrati[(prodottiFiltrati.length-1)-index],
+                    icona: Icons.shopping_bag,
                   );
-                },
-              ),
+
+              },
             ),
-          ],
-        ),
-      ),
+          ),
+
+          ]
+          ),
+
+
 
       // Floating Action Button personalizzato
       floatingActionButtonLocation: ExpandableFab.location,
@@ -239,6 +199,7 @@ class _HomeViewState extends State<HomeView> {
           ),
         ],
       ),
+
     );
   }
 }
