@@ -235,6 +235,7 @@ class _CustomCardsState extends State<CustomCards> {
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               IconButton(onPressed: () {
                 Navigator.push(
