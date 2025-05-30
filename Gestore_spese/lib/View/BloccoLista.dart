@@ -90,7 +90,7 @@ class BloccoLista extends StatelessWidget {
                           fontWeight: FontWeight.bold
                       ),
                       ),
-                      Text('Totale: ${l.spesaTotale.toStringAsPrecision(3)}€', style: TextStyle(
+                      Text('Totale: ${l.spesaTotale.toString()}€', style: TextStyle(
                           fontWeight: FontWeight.bold
                       ),
                       ),

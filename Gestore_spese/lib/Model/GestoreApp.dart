@@ -34,8 +34,5 @@ notifyListeners();
     notifyListeners();
   }
 
-  void eliminaSpesa(int indexS, int indexL) {
-    tutteLeListe[indexL].rimuoviSpesa(indexS);
-    notifyListeners();
-  }
+
 }

@@ -164,10 +164,14 @@ class _AddListState extends State<AddList> {
 
 
         ListaSpese l = ListaSpese(widget.nome)  ;
-        l.lista.addAll(ListaSpesaMomentanea.values.toList());
-          appProvider.CreaLista(l);
+        l.aggiungiLista(ListaSpesaMomentanea.values.toList());
 
-          Navigator.of(context).popUntil((route) => route.isFirst);
+
+          appProvider.CreaLista(l);
+        print(" creo ${l.nomeLista}, con prodotti  ${l.lista} totale ${l.spesaTotale}");
+
+
+        Navigator.of(context).popUntil((route) => route.isFirst);
           Navigator.push(
             context,
             MaterialPageRoute(

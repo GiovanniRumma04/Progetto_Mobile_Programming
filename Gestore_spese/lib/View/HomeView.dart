@@ -141,7 +141,6 @@ class HomeView extends StatelessWidget {
                 itemCount: min(appProvider.tutteLeListe.length, 3),
                 itemBuilder: (context, index) {
                   final elemento = appProvider.tutteLeListe[index];
-
                   return BloccoLista(
                     l: elemento,
                     indice: index,

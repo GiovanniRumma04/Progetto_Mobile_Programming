@@ -128,7 +128,7 @@ class ListaView extends StatelessWidget {
             Text('Dettagli Lista: '),
             Text('Data di Creazione: ${l.stampaData()}'),
             Text(
-              'Totale: ' + l.spesaTotale.toStringAsPrecision(3) + "€",
+              'Totale: ' + l.spesaTotale.toString()+ "€",
               style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
             ),
             Flexible(
@@ -266,7 +266,7 @@ void confermaPopup(BuildContext context, int indexS, int indexL) {
                   children: [
                     ElevatedButton(
                         onPressed: (){
-                          Provider.of<GestoreApp>(context, listen: false).eliminaSpesa(indexS, indexL);
+                       //   Provider.of<GestoreApp>(context, listen: false).eliminaSpesa(indexS, indexL);
                           Navigator.pop(context);
                         },
 

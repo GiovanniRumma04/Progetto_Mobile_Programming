@@ -109,14 +109,18 @@ class _SpesaViewState extends State<SpesaView> {
                   icon: Icon(Icons.remove_circle_outline,color: Color(0xFFFFCB77),),
                   onPressed: () {
                     setState(() {
-
+                     print("diminusico :");
                       if(count > 0) {
                         count = count-1;
                         updateData(appProvider.prodotti[widget.index],
                             count );
 
+                        print(" rimane quantita $count, nome prodotto ${appProvider.prodotti[widget.index]}");
+
                       }else {
                         count=0;
+                        print(" rimane quantita $count, nome prodotto ${appProvider.prodotti[widget.index]} deseleziono");
+
                       }
 
                       selected = (count>0) ? true : false;
@@ -137,6 +141,9 @@ class _SpesaViewState extends State<SpesaView> {
                   onPressed: () {
                     setState(() {
                      count =count +1;
+                     updateData(appProvider.prodotti[widget.index],
+                         count );
+                     print(" creo $count, nome prodotto ${appProvider.prodotti[widget.index].nomeprodotto}");
                      selected = (count>0)? true : false;
 
                     });
