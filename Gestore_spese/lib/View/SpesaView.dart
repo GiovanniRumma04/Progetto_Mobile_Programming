@@ -81,8 +81,8 @@ class _SpesaViewState extends State<SpesaView> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Flexible(
-
+                    Container(
+                      width: 130,
                       child: Text(
                         appProvider.prodotti[widget.index].nomeprodotto,
                         overflow: TextOverflow.ellipsis,
