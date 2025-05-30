@@ -83,19 +83,26 @@ import 'package:provider/provider.dart';
 }
 */
 
-class ListaView extends StatelessWidget {
+class ListaView extends StatefulWidget {
   final ListaSpese l;
   final indexL;
 
   const ListaView({super.key, required this.l, this.indexL});
 
   @override
+  State<ListaView> createState() => _ListaViewState();
+}
+
+class _ListaViewState extends State<ListaView> {
+  String query = '';
+  @override
   Widget build(BuildContext context) {
     final appProvider = Provider.of<GestoreApp>(context);
+    final speseFiltrate = getFilteredSpese(widget.l, query);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xFF227C9D),
-        title: Text(l.nomeLista, style: TextStyle(fontWeight: FontWeight.bold)),
+        title: Text(widget.l.nomeLista, style: TextStyle(fontWeight: FontWeight.bold)),
       ),
       body: Container(
         color: Color(0xFFFFCB77),
@@ -111,27 +118,33 @@ class ListaView extends StatelessWidget {
                 borderRadius: BorderRadius.circular(12),
               ),
               child: TextField(
-                decoration: InputDecoration(
+                onChanged: (value){
+                  setState(() {
+                    query = value;
+                  });
+                },
+                  decoration: InputDecoration(
                   icon: Icon(Icons.search, color: Colors.black54),
                   hintText: "Ricerca...",
                   border: InputBorder.none,
-                ),
-              ),
-            ),
+                  ),
+                  ),
+                  ),
 
-            SizedBox(height: 20),
+                  SizedBox(height: 20),
 
-            Text('Dettagli Lista: '),
-            Text('Data di Creazione: ${l.stampaData()}'),
-            Text(
-              'Totale: ' + l.spesaTotale.toString()+ "€",
+                  Text('Dettagli Lista: '),
+                  Text('Data di Creazione: ${widget.l.stampaData()}'),
+                  Text(
+                  'Totale: ' + widget.l.
+                spesaTotale.toString()+ "€",
               style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
             ),
             Flexible(
               child: ListView.builder(
-                itemCount: l.lista.length,
+                itemCount: speseFiltrate.length,
                 itemBuilder: (context, index) {
-                  return CustomCards(s: l.lista[index], indexList: indexL, indexSpesa: index);
+                  return CustomCards(s: speseFiltrate[index], indexList: widget.indexL, indexSpesa: index);
                 },
               ),
             ),
@@ -139,6 +152,11 @@ class ListaView extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  List<Spesa> getFilteredSpese(ListaSpese l, String query) {
+    if(query.isEmpty) return l.lista;
+    return l.lista.where((s) => s.p.nomeprodotto.toLowerCase().contains(query.toLowerCase())).toList();
   }
 }
 

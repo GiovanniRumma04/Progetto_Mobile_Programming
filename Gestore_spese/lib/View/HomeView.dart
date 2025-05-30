@@ -16,15 +16,22 @@ import '../Model/Prodotto.dart';
 import '../Model/Spesa.dart';
 import 'ListeView.dart';
 
-class HomeView extends StatelessWidget {
+class HomeView extends StatefulWidget {
   const HomeView({super.key});
+
+  @override
+  State<HomeView> createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> {
+  String query = '';
 
 
   @override
   Widget build(BuildContext context) {
 
     final appProvider = Provider.of<GestoreApp>(context);
-
+    final prodottiFiltrati = getFilteredProducts(appProvider.prodotti, query);
 
 
     final TextStyle sectionTitleStyle = TextStyle(
@@ -74,6 +81,11 @@ class HomeView extends StatelessWidget {
                 borderRadius: BorderRadius.circular(12),
               ),
               child: TextField(
+                onChanged: (value) {
+                  setState(() {
+                    query = value;
+                  });
+                },
                 decoration: InputDecoration(
                   icon: Icon(Icons.search, color: Colors.black54),
                   hintText: "Ricerca...",
@@ -102,14 +114,14 @@ class HomeView extends StatelessWidget {
               height: 350,
               color: Colors.grey[100],
               child: ListView.builder(
-                itemCount: min(appProvider.prodotti.length, 3),
+                itemCount: min(prodottiFiltrati.length, 3),
                 itemBuilder: (context, index) {
-                  if (!appProvider.prodotti.isEmpty) {
+
                     return ProdottoView(
-                      prodotto: appProvider.prodotti[index],
+                      prodotto: prodottiFiltrati[index],
                       icona: Icons.icecream_outlined,
                     );
-                  }
+
                 },
               ),
             ),
@@ -228,3 +240,11 @@ class HomeView extends StatelessWidget {
     );
   }
 }
+
+List<Prodotto> getFilteredProducts(List<Prodotto> prodotti, String query) {
+  if (query.isEmpty) return prodotti;
+  return prodotti
+      .where((p) => p.nomeprodotto.toLowerCase().contains(query.toLowerCase()))
+      .toList();
+}
+
