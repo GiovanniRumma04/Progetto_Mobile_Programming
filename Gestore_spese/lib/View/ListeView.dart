@@ -35,7 +35,7 @@ class _listeViewState extends State<ListeView> {
         body: ListView.builder(
           itemCount: appState.tutteLeListe.length,
           itemBuilder: (context, index) {
-            final elemento = appState.tutteLeListe[index];
+            final elemento = appState.tutteLeListe[(appState.tutteLeListe.length-1)-index];
             return BloccoLista(l: elemento, indice: index);
           },
         ),

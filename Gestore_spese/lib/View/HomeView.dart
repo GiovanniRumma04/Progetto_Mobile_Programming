@@ -115,10 +115,11 @@ class _HomeViewState extends State<HomeView> {
               color: Colors.grey[100],
               child: ListView.builder(
                 itemCount: min(prodottiFiltrati.length, 3),
+
                 itemBuilder: (context, index) {
 
                     return ProdottoView(
-                      prodotto: prodottiFiltrati[index],
+                      prodotto: prodottiFiltrati[(prodottiFiltrati.length-1)-index],
                       icona: Icons.icecream_outlined,
                     );
 
@@ -151,8 +152,9 @@ class _HomeViewState extends State<HomeView> {
               color: Colors.grey[100],
               child: ListView.builder(
                 itemCount: min(appProvider.tutteLeListe.length, 3),
+
                 itemBuilder: (context, index) {
-                  final elemento = appProvider.tutteLeListe[index];
+                  final elemento = appProvider.tutteLeListe[(appProvider.tutteLeListe.length-1)-index];
                   return BloccoLista(
                     l: elemento,
                     indice: index,
