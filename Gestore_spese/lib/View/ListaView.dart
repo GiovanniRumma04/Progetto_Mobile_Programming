@@ -138,7 +138,7 @@ class _ListaViewState extends State<ListaView> {
                   Text('Data di Creazione: ${widget.l.stampaData()}'),
                   Text(
                   'Totale: ' + widget.l.
-                spesaTotale.toString()+ "€",
+                spesaTotale.toStringAsFixed(2)+ "€",
               style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
             ),
             Flexible(
@@ -160,9 +160,6 @@ class _ListaViewState extends State<ListaView> {
     return l.lista.where((s) => s.p.nomeprodotto.toLowerCase().contains(query.toLowerCase())).toList();
   }
 
-  void updateAcquisto(Spesa s, int index) {
-
-  }
 }
 
 class CustomCards extends StatefulWidget {
@@ -182,89 +179,77 @@ class _CustomCardsState extends State<CustomCards> {
   @override
   Widget build(BuildContext context) {
     final appProvider = Provider.of<GestoreApp>(context);
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Container(
-          height: 170,
-          margin: EdgeInsets.all(8),
-          padding: EdgeInsets.all(12),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(20),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.2),
-                spreadRadius: 2,
-                blurRadius: 8,
-                offset: Offset(0, 0),
-              ),
-            ],
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                widget.s.p.nomeprodotto,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 28,
-                  fontFamily: 'Roboto',
-                ),
-              ),
-              Text(
-                'Data Spesa: ${widget.s.stampaData()}',
-                style: TextStyle(fontWeight: FontWeight.w300),
-              ),
-              Text(
-                'Prezzo unitario: ' + widget.s.p.prezzo.toString() + "€",
-                style: TextStyle(fontWeight: FontWeight.w300),
-              ),
-              Text(
-                'Quantità: ${widget.s.quantita}',
-                style: TextStyle(fontWeight: FontWeight.w300),
-              ),
-              Text(
-                'Costo: ' + (widget.s.p.prezzo * widget.s.quantita).toString() + "€",
-                style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
-              ),
-            ],
-          ),
+    return Container(
+      height: 170,
+      margin: EdgeInsets.all(8),
+      padding: EdgeInsets.all(12),
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.2),
+              spreadRadius: 2,
+              blurRadius: 8,
+              offset: Offset(0, 0),
+            ),
+          ],
         ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Flexible(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  widget.s.p.nomeprodotto,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 24,
+                    fontFamily: 'Roboto',
+                  ),
 
-        Container(
-          height: 170,
-          padding: EdgeInsets.all(12),
-          margin: EdgeInsets.all(8),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(20),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.2),
-                spreadRadius: 2,
-                blurRadius: 8,
-                offset: Offset(0, 0),
-              ),
-            ],
+                ),
+                Text(
+                  'Data Spesa: ${widget.s.stampaData()}',
+                  style: TextStyle(fontWeight: FontWeight.w300),
+                ),
+                Text(
+                  'Prezzo unitario: ' + widget.s.p.prezzo.toStringAsFixed(2) + "€",
+                  style: TextStyle(fontWeight: FontWeight.w300),
+                ),
+                Text(
+                  'Quantità: ${widget.s.quantita}',
+                  style: TextStyle(fontWeight: FontWeight.w300),
+                ),
+                Text(
+                  'Costo: ' + (widget.s.p.prezzo * widget.s.quantita).toStringAsFixed(2) + "€",
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
           ),
-          child: Column(
+          Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               IconButton(onPressed: () {
                 Navigator.push(
                     context,
-                  MaterialPageRoute(builder: (context) => SpesaProdottoView(true, widget.s.p, quantita: widget.s.quantita))
+                    MaterialPageRoute(builder: (context) => SpesaProdottoView(true, widget.s.p, quantita: widget.s.quantita))
                 );
               }, icon: Icon(Icons.arrow_forward_ios)),
               Row(
                 children: [
                   Text(
-                      'Acquistato',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 15,
-                  ),
+                    'Acquistato',
+                    style: TextStyle(
+
+                      fontSize: 12,
+                    ),
                   ),
                   Checkbox(
                       value: widget.s.acquistato, onChanged: (value) => setState(() {
@@ -274,8 +259,8 @@ class _CustomCardsState extends State<CustomCards> {
               ),
             ],
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

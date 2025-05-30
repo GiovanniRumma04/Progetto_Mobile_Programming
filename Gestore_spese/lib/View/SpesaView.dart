@@ -77,26 +77,30 @@ class _SpesaViewState extends State<SpesaView> {
                 ),
                 SizedBox(width: 8),
                 // Nome e descrizione
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      appProvider.prodotti[widget.index].nomeprodotto,
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black87,
+                Flexible(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        appProvider.prodotti[widget.index].nomeprodotto,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black87,
+                        ),
                       ),
-                    ),
-                    SizedBox(height: 4),
-                    Text(
-                      appProvider.prodotti[widget.index].c.nomeCategoria,
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.black54,
+                      SizedBox(height: 4),
+                      Text(
+                        appProvider.prodotti[widget.index].c.nomeCategoria,
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.black54,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ],
             ),

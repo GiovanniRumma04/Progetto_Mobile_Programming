@@ -98,7 +98,7 @@ class _BloccoListaState extends State<BloccoLista> {
                           fontWeight: FontWeight.bold
                       ),
                       ),
-                      Text('Totale: ${widget.l.spesaTotale.toString()}€', style: TextStyle(
+                      Text('Totale: ${widget.l.spesaTotale.toStringAsFixed(2)}€', style: TextStyle(
                           fontWeight: FontWeight.bold
                       ),
                       ),
