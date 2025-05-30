@@ -6,6 +6,7 @@ class Spesa {
   late DateTime _data;
 
   late int _quantita;
+  late bool acquistato;
 
   DateTime get data => _data;
 
@@ -13,7 +14,9 @@ class Spesa {
     _data = value;
   }
 
-  Spesa(this.p,this._data, this._quantita);
+  Spesa(this.p,this._data, this._quantita){
+    acquistato = false;
+  }
 
   int get quantita => _quantita;
 

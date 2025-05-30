@@ -95,6 +95,7 @@ class ListaView extends StatefulWidget {
 
 class _ListaViewState extends State<ListaView> {
   String query = '';
+
   @override
   Widget build(BuildContext context) {
     final appProvider = Provider.of<GestoreApp>(context);
@@ -158,13 +159,25 @@ class _ListaViewState extends State<ListaView> {
     if(query.isEmpty) return l.lista;
     return l.lista.where((s) => s.p.nomeprodotto.toLowerCase().contains(query.toLowerCase())).toList();
   }
+
+  void updateAcquisto(Spesa s, int index) {
+
+  }
 }
 
-class CustomCards extends StatelessWidget {
+class CustomCards extends StatefulWidget {
   final Spesa s;
   final int indexSpesa;
   final int indexList;
+
   const CustomCards({super.key, required this.s, required this.indexList, required this.indexSpesa});
+
+  @override
+  State<CustomCards> createState() => _CustomCardsState();
+}
+
+class _CustomCardsState extends State<CustomCards> {
+
 
   @override
   Widget build(BuildContext context) {
@@ -192,7 +205,7 @@ class CustomCards extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                s.p.nomeprodotto,
+                widget.s.p.nomeprodotto,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 28,
@@ -200,19 +213,19 @@ class CustomCards extends StatelessWidget {
                 ),
               ),
               Text(
-                'Data Spesa: ${s.stampaData()}',
+                'Data Spesa: ${widget.s.stampaData()}',
                 style: TextStyle(fontWeight: FontWeight.w300),
               ),
               Text(
-                'Prezzo unitario: ' + s.p.prezzo.toString() + "€",
+                'Prezzo unitario: ' + widget.s.p.prezzo.toString() + "€",
                 style: TextStyle(fontWeight: FontWeight.w300),
               ),
               Text(
-                'Quantità: ${s.quantita}',
+                'Quantità: ${widget.s.quantita}',
                 style: TextStyle(fontWeight: FontWeight.w300),
               ),
               Text(
-                'Costo: ' + (s.p.prezzo * s.quantita).toString() + "€",
+                'Costo: ' + (widget.s.p.prezzo * widget.s.quantita).toString() + "€",
                 style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
               ),
             ],
@@ -241,15 +254,23 @@ class CustomCards extends StatelessWidget {
               IconButton(onPressed: () {
                 Navigator.push(
                     context,
-                  MaterialPageRoute(builder: (context) => SpesaProdottoView(true, s.p, quantita: s.quantita))
+                  MaterialPageRoute(builder: (context) => SpesaProdottoView(true, widget.s.p, quantita: widget.s.quantita))
                 );
               }, icon: Icon(Icons.arrow_forward_ios)),
-              IconButton(
-                onPressed: () {
-                  confermaPopup(context, indexSpesa, indexList);
-                },
-                icon: Icon(Icons.delete),
-                color: Colors.red,
+              Row(
+                children: [
+                  Text(
+                      'Acquistato',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15,
+                  ),
+                  ),
+                  Checkbox(
+                      value: widget.s.acquistato, onChanged: (value) => setState(() {
+                    widget.s.acquistato = !widget.s.acquistato;
+                  })),
+                ],
               ),
             ],
           ),
@@ -259,7 +280,7 @@ class CustomCards extends StatelessWidget {
   }
 }
 
-void confermaPopup(BuildContext context, int indexS, int indexL) {
+/*void confermaPopup(BuildContext context, int indexS, int indexL) {
   showModalBottomSheet(
     context: context,
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
@@ -335,4 +356,4 @@ void confermaPopup(BuildContext context, int indexS, int indexL) {
       ),
     ),
   );
-}
+}*/
