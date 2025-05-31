@@ -9,7 +9,7 @@ import 'View/ListeView.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final db = await DatabaseHelper.instance.database;
-  DatabaseHelper.instance.insertCategorie();
+
   runApp( MyApp());
 }
 

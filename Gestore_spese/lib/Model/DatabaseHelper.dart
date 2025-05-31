@@ -81,7 +81,7 @@ CREATE TABLE lista_spese (
   Future<void> insertProdotto(Prodotto p)async{
     final db = await database;
     await db.query('categoria', where: 'nome=?');
-    await db.insert('prodotti', {'nome':p.nomeprodotto,})
+    await db.insert('prodotti', {'nome':p.nomeprodotto,});
   }
 
   Future<void> insertLista(ListaSpese l) async{
@@ -96,7 +96,8 @@ CREATE TABLE lista_spese (
 
   }
 
-  Future<List<Categoria>> getCategorie() async{
+/*  Future<List<Categoria>> getCategorie() async{
+
 
 
   }
@@ -113,5 +114,5 @@ CREATE TABLE lista_spese (
   Future<void> modificaSpesa(ListaSpese old, ListaSpese new) async{
 
   }
-
+*/
 }
