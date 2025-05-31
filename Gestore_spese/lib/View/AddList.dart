@@ -125,9 +125,11 @@ class _AddListState extends State<AddList> {
                    return SpesaView(
                      index: indice,
                      selected: ListaSpesaMomentanea.containsKey(index),
-                     count:  ListaSpesaMomentanea[indice]?.quantita ?? 0,
-                       notifcaCambiamneto : (s) => aggiornaSpesa(indice, s)
+                     count:  ListaSpesaMomentanea[index]?.quantita ?? 0,
+                       notifcaCambiamneto : (s) => aggiornaSpesa(index, s)
                    );
+
+                   //return SpesaView(index: index, selected: listaFiltrata[index], count: count, notifcaCambiamneto: (s) => aggiornaSpesa(index, s));
                }
 
                ),
