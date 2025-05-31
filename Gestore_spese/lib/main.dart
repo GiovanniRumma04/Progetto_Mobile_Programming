@@ -3,15 +3,19 @@ import 'package:gestore_spese/Model/GestoreApp.dart';
 import 'package:gestore_spese/View/HomeView.dart';
 import 'package:provider/provider.dart';
 
+import 'Model/DatabaseHelper.dart';
 import 'View/ListeView.dart';
 
-void main() {
-
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final db = await DatabaseHelper.instance.database;
+  DatabaseHelper.instance.insertCategorie();
   runApp( MyApp());
 }
 
 class MyApp extends StatefulWidget {
    MyApp({super.key});
+
 
   @override
   State<MyApp> createState() => _MyAppState();
