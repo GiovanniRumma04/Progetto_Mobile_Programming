@@ -37,7 +37,8 @@ class GestoreApp extends ChangeNotifier {
 
     for (var i = 0; i < prodotti.length; i++) {
       if (prodotti[i].id == updatedProduct.id) {
-        prodotti[i] = updatedProduct;
+        Prodotto p = prodotti[i];
+        p = updatedProduct;
       }
     }
 

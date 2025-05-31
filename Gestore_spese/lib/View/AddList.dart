@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:gestore_spese/Model/ListaSpese.dart';
 import 'package:gestore_spese/Model/Spesa.dart';
 import 'package:gestore_spese/View/CreaProdottoView.dart';
+import 'package:gestore_spese/View/HomeView.dart';
 import 'package:provider/provider.dart';
 
 import '../Model/GestoreApp.dart';
+import '../Model/Prodotto.dart';
 import 'ListeView.dart';
 import 'SpesaView.dart';
 
@@ -21,6 +23,8 @@ class AddList extends StatefulWidget{
 class _AddListState extends State<AddList> {
 
   Map<int,Spesa> ListaSpesaMomentanea= {};
+  String query = '';
+
 
   final TextStyle sectionTitleStyle = TextStyle(
     fontSize: 20,
@@ -65,6 +69,7 @@ class _AddListState extends State<AddList> {
 
   Widget build(BuildContext context) {
     final appProvider = Provider.of<GestoreApp>(context);
+    List<Prodotto> listaFiltrata = getFilteredProducts(appProvider.prodotti, query);
 
     return Scaffold(
 
@@ -93,6 +98,9 @@ class _AddListState extends State<AddList> {
                 borderRadius: BorderRadius.circular(12),
               ),
               child: TextField(
+                onChanged: (value) => setState(() {
+                  query = value;
+                }),
                 decoration: InputDecoration(
                   icon: Icon(Icons.search, color: Colors.black54),
                   hintText: "Cerca Prodotto ",
@@ -108,13 +116,17 @@ class _AddListState extends State<AddList> {
                scrollDirection: Axis.vertical,
                child: Wrap(
 
-                 children: List.generate(appProvider.prodotti.length, (index){
+                 children: List.generate(listaFiltrata.length, (index){
+
+                   final prod = listaFiltrata[index];
+                   final indice = appProvider.prodotti.indexWhere((p) => p.nomeprodotto == prod.nomeprodotto);
+
 
                    return SpesaView(
-                     index: index,
+                     index: indice,
                      selected: ListaSpesaMomentanea.containsKey(index),
-                     count:  ListaSpesaMomentanea[index]?.quantita ?? 0,
-                       notifcaCambiamneto : (s) => aggiornaSpesa(index, s)
+                     count:  ListaSpesaMomentanea[indice]?.quantita ?? 0,
+                       notifcaCambiamneto : (s) => aggiornaSpesa(indice, s)
                    );
                }
 
