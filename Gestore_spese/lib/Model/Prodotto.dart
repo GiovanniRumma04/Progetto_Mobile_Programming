@@ -38,7 +38,14 @@ class Prodotto {
   set nomeprodotto(String value) {
     _nomeprodotto = value;
   }
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+          other is Prodotto && nomeprodotto == other.nomeprodotto;
 
+  @override
+  int get hashCode => nomeprodotto.hashCode;
+}
   /*Map<String, dynamic> toJson(){
     return{
       'nomeProdotto': nomeprodotto,
@@ -51,4 +58,4 @@ class Prodotto {
   factory Prodotto.fromJson(Map<String, dynamic> json){
     return Prodotto(json['nomeProdotto'], json['prezzo'], json['categoria'],json['note']);
   }*/
-}
+

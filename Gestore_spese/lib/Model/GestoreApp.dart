@@ -16,6 +16,7 @@ class GestoreApp extends ChangeNotifier {
 
   void addSpesa(Spesa s) {
     spesa.add(s);
+    notifyListeners();
   }
 
 
@@ -24,6 +25,8 @@ class GestoreApp extends ChangeNotifier {
     ls.lista.addAll(spesa);
     tutteLeListe.add(ls);
     spesa.removeRange(0, spesa.length-1);
+    notifyListeners();
+
   }
 
   void creaProd(Prodotto p) {

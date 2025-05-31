@@ -135,10 +135,11 @@ class _AddListState extends State<AddList> {
                s?.quantita = found!.quantita;
 
                  return SpesaView(
-                   prodotto: s!.p,
+                   key: ValueKey(s!.p),
                    selected: appProvider.spesa.contains(s),
                    count: s?.quantita ?? 0,
                    notifcaCambiamneto: (s) => aggiornaSpesa(appProvider, s),
+                   prodotto: s!.p,
                  );
                },
              ),

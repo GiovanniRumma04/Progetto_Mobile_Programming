@@ -48,7 +48,7 @@ class _SpesaViewState extends State<SpesaView> {
 
 
     final appProvider = Provider.of<GestoreApp>(context);
-  int   index = appProvider.prodotti.indexOf(widget.prodotto);
+  int  index = appProvider.prodotti.indexOf(widget.prodotto);
     return Card(
 
       elevation: 6,
