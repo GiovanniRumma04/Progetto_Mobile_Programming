@@ -7,11 +7,12 @@ import 'package:provider/provider.dart';
 import 'SpesaProdottoView.dart';
 
 class SpesaView extends StatefulWidget {
-  final int index;
+
   final bool selected;
    final int count ;
+   final Prodotto prodotto;
      final Function(Spesa?) notifcaCambiamneto;
-  SpesaView({super.key, required this.index,required this.selected,required this.count,required this.notifcaCambiamneto});
+  SpesaView({super.key,required this.selected,required this.count,required this.notifcaCambiamneto, required this.prodotto});
 
   @override
   _SpesaViewState createState() => _SpesaViewState();
@@ -32,8 +33,10 @@ class _SpesaViewState extends State<SpesaView> {
   }
 
   void updateData(Prodotto? p,quantita){
+    Spesa s = Spesa(p!);
+    s.quantita=quantita;
    widget.notifcaCambiamneto(
-     selected ?  Spesa(p!, DateTime.now(), quantita) : null
+     selected ? s : null
    );
 
 
@@ -45,7 +48,7 @@ class _SpesaViewState extends State<SpesaView> {
 
 
     final appProvider = Provider.of<GestoreApp>(context);
-
+  int   index = appProvider.prodotti.indexOf(widget.prodotto);
     return Card(
 
       elevation: 6,
@@ -70,7 +73,7 @@ class _SpesaViewState extends State<SpesaView> {
                     setState(() {
                      selected = newVal ?? false;
                        count = selected? 1 :0;
-                     updateData(appProvider.prodotti[widget.index], count);
+                     updateData(appProvider.prodotti[index], count);
 
                     });
                   },
@@ -84,7 +87,7 @@ class _SpesaViewState extends State<SpesaView> {
                     Container(
                       width: 130,
                       child: Text(
-                        appProvider.prodotti[widget.index].nomeprodotto,
+                        appProvider.prodotti[index].nomeprodotto,
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
                         style: TextStyle(
@@ -96,7 +99,7 @@ class _SpesaViewState extends State<SpesaView> {
                     ),
                     //SizedBox(height: 4),
                     Text(
-                      appProvider.prodotti[widget.index].c.nomeCategoria,
+                      appProvider.prodotti[index].c.nomeCategoria,
                       style: TextStyle(
                         fontSize: 14,
                         color: Colors.black54,
@@ -118,14 +121,14 @@ class _SpesaViewState extends State<SpesaView> {
                      print("diminusico :");
                       if(count > 0) {
                         count = count-1;
-                        updateData(appProvider.prodotti[widget.index],
+                        updateData(appProvider.prodotti[index],
                             count );
 
-                        print(" rimane quantita $count, nome prodotto ${appProvider.prodotti[widget.index]}");
+                        print(" rimane quantita $count, nome prodotto ${appProvider.prodotti[index]}");
 
                       }else {
                         count=0;
-                        print(" rimane quantita $count, nome prodotto ${appProvider.prodotti[widget.index]} deseleziono");
+                        print(" rimane quantita $count, nome prodotto ${appProvider.prodotti[index]} deseleziono");
 
                       }
 
@@ -147,9 +150,9 @@ class _SpesaViewState extends State<SpesaView> {
                   onPressed: () {
                     setState(() {
                      count =count +1;
-                     updateData(appProvider.prodotti[widget.index],
+                     updateData(appProvider.prodotti[index],
                          count );
-                     print(" creo $count, nome prodotto ${appProvider.prodotti[widget.index].nomeprodotto}");
+                     print(" creo $count, nome prodotto ${appProvider.prodotti[index].nomeprodotto}");
                      selected = (count>0)? true : false;
 
                     });
@@ -164,7 +167,7 @@ class _SpesaViewState extends State<SpesaView> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => SpesaProdottoView(true, appProvider.prodotti[widget.index], quantita: count,)),
+                      MaterialPageRoute(builder: (context) => SpesaProdottoView(true, appProvider.prodotti[index], quantita: count,)),
                     );
                   },
 

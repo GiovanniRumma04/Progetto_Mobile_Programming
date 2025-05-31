@@ -128,10 +128,14 @@ class _CustomCardsState extends State<CustomCards> {
                     fontFamily: 'Roboto',
                   ),
                 ),
-                Text(
-                  'Data Spesa: ${widget.s.stampaData()}',
-                  style: TextStyle(fontWeight: FontWeight.w300),
-                ),
+
+
+               // Text(
+                //  'Data Spesa:${widget.s.stampaData()}',
+                 // style: TextStyle(fontWeight: FontWeight.w300),
+               // ),
+
+
                 Text(
                   'Prezzo unitario: ' + widget.s.p.prezzo.toStringAsFixed(2) + "€",
                   style: TextStyle(fontWeight: FontWeight.w300),

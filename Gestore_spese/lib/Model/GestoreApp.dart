@@ -11,6 +11,20 @@ class GestoreApp extends ChangeNotifier {
   List<Categoria> categorie = [];
   List<ListaSpese> tutteLeListe = [];
   late int indiceCategoria;
+  List<Spesa> spesa = [];
+
+
+  void addSpesa(Spesa s) {
+    spesa.add(s);
+  }
+
+
+  void aggiungiSpeseNellaLista(ListaSpese ls){
+
+    ls.lista.addAll(spesa);
+    tutteLeListe.add(ls);
+    spesa.removeRange(0, spesa.length-1);
+  }
 
   void creaProd(Prodotto p) {
     prodotti.add(p);
