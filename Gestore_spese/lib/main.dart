@@ -11,8 +11,8 @@ import 'View/ListeView.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  /*final dbPath = await getDatabasesPath();
-  await deleteDatabase(join(dbPath, 'mio_database.db'));*/
+  //final dbPath = await getDatabasesPath();
+  //await deleteDatabase(join(dbPath, 'mio_database.db'));
 
   runApp( MyApp());
 }

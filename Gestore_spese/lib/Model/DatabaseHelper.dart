@@ -16,14 +16,26 @@ class DatabaseHelper {
   Future<Database> _initDatabase() async {
     return openDatabase(
       join(await getDatabasesPath(),'mio_database.db'),
-      onCreate: (db, version) async {
-        await db.execute('''
+      onCreate: creaDatabase,
+      onUpgrade: (db, oldVersion, newVersion) async {
+        await db.execute('DROP TABLE IF EXISTS spese;');
+        await db.execute('DROP TABLE IF EXISTS liste;');
+        await db.execute('DROP TABLE IF EXISTS prodotti;');
+        await db.execute('DROP TABLE IF EXISTS categorie;');
+        creaDatabase(db, newVersion);
+      },
+      version: 3,
+    );
+  }
+
+  void creaDatabase(db, version) async {
+      await db.execute('''
           CREATE TABLE categorie (
             nome TEXT PRIMARY KEY
           );
           ''');
 
-        await db.execute('''CREATE TABLE prodotti (
+      await db.execute('''CREATE TABLE prodotti (
             nome TEXT PRIMARY KEY,
             prezzo REAL NOT NULL,
             note TEXT,
@@ -31,12 +43,12 @@ class DatabaseHelper {
             FOREIGN KEY (categoria_nome) REFERENCES categorie(nome) ON DELETE CASCADE
           );''');
 
-        await db.execute('''CREATE TABLE liste (
+      await db.execute('''CREATE TABLE liste (
             nome TEXT PRIMARY KEY,
             data_creazione TEXT NOT NULL
           );''');
 
-        await db.execute('''CREATE TABLE spese (
+      await db.execute('''CREATE TABLE spese (
             lista_nome TEXT NOT NULL,
             prodotto_nome TEXT NOT NULL,
             quantita INTEGER NOT NULL CHECK(quantita > 0),
@@ -47,9 +59,6 @@ class DatabaseHelper {
             FOREIGN KEY (prodotto_nome) REFERENCES prodotti(nome) ON DELETE CASCADE
           );
           ''');
-      },
-      version: 2,
-    );
   }
 
   Future<void> insertCategoria(Categoria c) async {
@@ -71,6 +80,22 @@ class DatabaseHelper {
       'note': p.note,
       'categoria_nome': p.c.nomeCategoria,
     }, conflictAlgorithm: ConflictAlgorithm.replace);
+  }
+
+  Future<void> cancellaProdotto(Prodotto p) async {
+    final db = await database;
+
+    await db.delete(
+      'prodotti',
+      where: 'nome = ?',
+      whereArgs: [p.nomeprodotto],
+    );
+
+    await db.delete(
+      'spese',
+      where: 'prodotto_nome = ?',
+      whereArgs: [p.nomeprodotto],
+    );
   }
 
   Future<void> insertLista(ListaSpese l) async {
@@ -97,9 +122,15 @@ class DatabaseHelper {
   Future<void> cancellaLista(ListaSpese l) async {
     final db = await database;
 
-    final exists = db.delete(
+    await db.delete(
       'liste',
       where: 'nome = ?',
+      whereArgs: [l.nomeLista],
+    );
+
+    await db.delete(
+      'spese',
+      where: 'lista_nome = ?',
       whereArgs: [l.nomeLista],
     );
   }
@@ -111,11 +142,8 @@ class DatabaseHelper {
   ) async {
     final db = await database;
 
-    await db.delete(
-      'spese',
-      where: 'lista_nome = ? AND prodotto_nome = ?',
-      whereArgs: [lista.nomeLista, oldSpesa.p.nomeprodotto],
-    );
+    cancellaProdotto(oldSpesa.p);
+    insertProdotto(newSpesa.p);
 
     await db.insert('spese', {
       'lista_nome': lista.nomeLista,
