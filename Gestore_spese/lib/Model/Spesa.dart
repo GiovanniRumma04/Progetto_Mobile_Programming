@@ -8,16 +8,14 @@ class Spesa {
   late int quantita;
   late bool acquistato;
 
+  Spesa(this.p) {
+    quantita = 0;
+    data = DateTime.now();
+    acquistato = false;
+  }
 
-
-
-
-  Spesa(this.p);
-
-
-
-
-
-
-
+  @override
+  String toString() {
+    return 'Spesa{p: $p, data: $data, quantita: $quantita, acquistato: $acquistato}';
+  }
 }

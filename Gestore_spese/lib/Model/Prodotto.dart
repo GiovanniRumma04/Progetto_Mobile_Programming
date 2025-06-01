@@ -9,9 +9,7 @@ class Prodotto {
 
   late String _note;
 
-  final String id; 
-
-  Prodotto(this._nomeprodotto, this._prezzo, this._c, this._note, this.id){
+  Prodotto(this._nomeprodotto, this._prezzo, this._c, this._note){
     _c.numSpese++;
   }
 
@@ -38,6 +36,13 @@ class Prodotto {
   set nomeprodotto(String value) {
     _nomeprodotto = value;
   }
+
+
+  @override
+  String toString() {
+    return 'Prodotto{_nomeprodotto: $_nomeprodotto, _prezzo: $_prezzo, _c: $_c, _note: $_note}';
+  }
+
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -46,6 +51,8 @@ class Prodotto {
   @override
   int get hashCode => nomeprodotto.hashCode;
 }
+
+
   /*Map<String, dynamic> toJson(){
     return{
       'nomeProdotto': nomeprodotto,

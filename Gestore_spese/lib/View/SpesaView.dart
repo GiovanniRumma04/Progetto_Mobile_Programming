@@ -7,54 +7,42 @@ import 'package:provider/provider.dart';
 import 'SpesaProdottoView.dart';
 
 class SpesaView extends StatefulWidget {
-
+  final Prodotto prodotto;
+  final Map<Prodotto, int> targetMap;
   final bool selected;
-   final int count ;
-   final Prodotto prodotto;
-     final Function(Spesa?) notifcaCambiamneto;
-  SpesaView({super.key,required this.selected,required this.count,required this.notifcaCambiamneto, required this.prodotto});
+  final int count;
+
+  SpesaView({
+    super.key,
+    required this.prodotto,
+    required this.targetMap,
+    required this.selected,
+    required this.count,
+  });
 
   @override
   _SpesaViewState createState() => _SpesaViewState();
 }
 
-
-
-
-
 class _SpesaViewState extends State<SpesaView> {
   late bool selected;
   late int count;
+  late Spesa s;
 
+  @override
   void initState() {
     super.initState();
-    selected = widget.selected; // copia esplicita
-    count = widget.count;       // copia esplicita
+    selected = widget.selected;
+    count = widget.count;
   }
-
-  void updateData(Prodotto? p,quantita){
-    Spesa s = Spesa(p!);
-    s.quantita=quantita;
-   widget.notifcaCambiamneto(
-     selected ? s : null
-   );
-
-
-  }
-
 
   @override
   Widget build(BuildContext context) {
-
-
     final appProvider = Provider.of<GestoreApp>(context);
-  int  index = appProvider.prodotti.indexOf(widget.prodotto);
+    int index = appProvider.prodotti.indexOf(widget.prodotto);
     return Card(
-
       elevation: 6,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: Padding(
         padding: const EdgeInsets.all(12.0),
         child: Row(
@@ -69,25 +57,32 @@ class _SpesaViewState extends State<SpesaView> {
                   activeColor: Color(0xFFFFCB77),
                   shape: CircleBorder(),
                   onChanged: (bool? newVal) {
-
                     setState(() {
-                     selected = newVal ?? false;
-                       count = selected? 1 :0;
-                     updateData(appProvider.prodotti[index], count);
+                      selected = newVal ?? false;
+                      count = selected ? 1 : 0;
 
+                      if (selected == true) {
+                        widget.targetMap[widget.prodotto] = count;
+                        s = new Spesa(widget.prodotto);
+                        s.quantita = count;
+                        appProvider.addSpesa(s);
+                        print(widget.targetMap.toString());
+                      } else {
+                        widget.targetMap.remove(widget.prodotto);
+                        appProvider.spesa.remove(s);
+                      }
                     });
                   },
                 ),
-                SizedBox(width: 8),
                 // Nome e descrizione
                 Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      width: 130,
+                      width: 90,
                       child: Text(
-                        appProvider.prodotti[index].nomeprodotto,
+                        widget.prodotto.nomeprodotto,
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
                         style: TextStyle(
@@ -99,11 +94,8 @@ class _SpesaViewState extends State<SpesaView> {
                     ),
                     //SizedBox(height: 4),
                     Text(
-                      appProvider.prodotti[index].c.nomeCategoria,
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.black54,
-                      ),
+                      widget.prodotto.c.nomeCategoria,
+                      style: TextStyle(fontSize: 14, color: Colors.black54),
                     ),
                   ],
                 ),
@@ -115,62 +107,94 @@ class _SpesaViewState extends State<SpesaView> {
               children: [
                 // Decrementa
                 IconButton(
-                  icon: Icon(Icons.remove_circle_outline,color: Color(0xFFFFCB77),),
+                  icon: Icon(
+                    Icons.remove_circle_outline,
+                    color: Color(0xFFFFCB77),
+                  ),
                   onPressed: () {
                     setState(() {
-                     print("diminusico :");
-                      if(count > 0) {
-                        count = count-1;
-                        updateData(appProvider.prodotti[index],
-                            count );
+                      print("diminusico :");
 
-                        print(" rimane quantita $count, nome prodotto ${appProvider.prodotti[index]}");
+                      if (count > 0) {
+                        count = count - 1;
 
-                      }else {
-                        count=0;
-                        print(" rimane quantita $count, nome prodotto ${appProvider.prodotti[index]} deseleziono");
+                        widget.targetMap[widget.prodotto] = count;
 
+
+
+                        print(
+                          " rimane quantita $count, nome prodotto ${appProvider.prodotti[index]}",
+                        );
+                      } else {
+                        count = 0;
+
+
+                        print(
+                          " rimane quantita $count, nome prodotto ${appProvider.prodotti[index]} deseleziono",
+                        );
                       }
 
-                      selected = (count>0) ? true : false;
+                      selected = (count > 0) ? true : false;
 
+                      if(selected == false){ // controllo su selected dopo che viene settato a false
+                        widget.targetMap.remove(widget.prodotto);
+                        appProvider.spesa.remove(s);
+                      }
                     });
                   },
                 ),
 
                 // Conteggio
-                Text(
-                  '$count',
-                  style: TextStyle(fontSize: 16),
-                ),
+                Text('$count', style: TextStyle(fontSize: 16)),
 
                 // Incrementa
                 IconButton(
-                  icon: Icon(Icons.add_circle_outline,color: Color(0xFFFFCB77)),
+                  icon: Icon(
+                    Icons.add_circle_outline,
+                    color: Color(0xFFFFCB77),
+                  ),
                   onPressed: () {
                     setState(() {
-                     count =count +1;
-                     updateData(appProvider.prodotti[index],
-                         count );
-                     print(" creo $count, nome prodotto ${appProvider.prodotti[index].nomeprodotto}");
-                     selected = (count>0)? true : false;
+                      count = count + 1;
 
+
+                      widget.targetMap[widget.prodotto] = count;
+
+                      if(count == 1){ // appena incremento di 1 significa che devo istanziare una spesa di quantità unitaria
+                        s = new Spesa(widget.prodotto);
+                        s.quantita = count;
+                        appProvider.addSpesa(s);
+
+                      }else if(count > 1){ // se la quantità è maggiore di 1 significa che ho già istanziato la spesa e devo solo incrementarne la quantità
+                        s.quantita = count;
+                        appProvider.addSpesa(s);
+                      }
+
+                      print(
+                        " creo $count, nome prodotto ${appProvider.prodotti[index].nomeprodotto}",
+                      );
+                      selected = (count > 0) ? true : false;
                     });
                   },
                 ),
 
-                // Freccia iOS
                 IconButton(
-                  icon: Icon(Icons.arrow_right_sharp,size: 30,),
+                  icon: Icon(Icons.arrow_right_sharp, size: 30),
                   color: Color(0xFFFE6D73),
-                 padding: EdgeInsets.all(0),
+                  padding: EdgeInsets.all(0),
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => SpesaProdottoView(true, appProvider.prodotti[index], quantita: count,)),
+                      MaterialPageRoute(
+                        builder:
+                            (context) => SpesaProdottoView(
+                              true,
+                              appProvider.prodotti[index],
+                              quantita: count,
+                            ),
+                      ),
                     );
                   },
-
                 ),
               ],
             ),

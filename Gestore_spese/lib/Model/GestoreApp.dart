@@ -14,18 +14,26 @@ class GestoreApp extends ChangeNotifier {
   List<Spesa> spesa = [];
 
 
-  void addSpesa(Spesa s) {
-    spesa.add(s);
+
+  void addSpesa(Spesa sIn) {
+    spesa.removeWhere((s)=> sIn.p.nomeprodotto ==s.p.nomeprodotto);
+    spesa.add(sIn);
+    print(spesa);
     notifyListeners();
   }
 
 
   void aggiungiSpeseNellaLista(ListaSpese ls){
 
-    ls.lista.addAll(spesa);
-    tutteLeListe.add(ls);
-    spesa.removeRange(0, spesa.length-1);
-    notifyListeners();
+    if(spesa.isNotEmpty){
+      ls.aggiungiLista(spesa);
+      tutteLeListe.add(ls);
+      spesa.removeRange(0, spesa.length-1);
+      notifyListeners();
+    }else{
+      print("inserisci almeno una spesa");
+    }
+
 
   }
 
@@ -53,7 +61,7 @@ class GestoreApp extends ChangeNotifier {
   void updateProductAndExpenses(Prodotto updatedProduct, int updatedQuantita) {
 
     for (var i = 0; i < prodotti.length; i++) {
-      if (prodotti[i].id == updatedProduct.id) {
+      if (prodotti[i].nomeprodotto == updatedProduct.nomeprodotto) {
         Prodotto p = prodotti[i];
         p = updatedProduct;
       }
@@ -63,7 +71,7 @@ class GestoreApp extends ChangeNotifier {
     for (var lista in tutteLeListe) {
       double newTotal = 0.0;
       for (var spesa in lista.lista) {
-        if (spesa.p.id == updatedProduct.id) {
+        if (spesa.p.nomeprodotto == updatedProduct.nomeprodotto) {
           spesa.p = updatedProduct;
           spesa.quantita = updatedQuantita;
         }

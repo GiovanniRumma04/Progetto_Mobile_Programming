@@ -7,8 +7,8 @@ import 'Model/DatabaseHelper.dart';
 import 'View/ListeView.dart';
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  final db = await DatabaseHelper.instance.database;
+  //WidgetsFlutterBinding.ensureInitialized();
+  //final db = await DatabaseHelper.instance.database;
 
   runApp( MyApp());
 }
