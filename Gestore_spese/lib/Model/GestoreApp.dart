@@ -5,6 +5,7 @@ import 'package:gestore_spese/Model/Spesa.dart';
 import 'package:gestore_spese/View/SpesaView.dart';
 
 import 'Categoria.dart';
+import 'DatabaseHelper.dart';
 
 class GestoreApp extends ChangeNotifier {
   List<Prodotto> prodotti = [];
@@ -22,7 +23,6 @@ class GestoreApp extends ChangeNotifier {
     notifyListeners();
   }
 
-
   void aggiungiSpeseNellaLista(ListaSpese ls){
 
     if(spesa.isNotEmpty){
@@ -33,8 +33,6 @@ class GestoreApp extends ChangeNotifier {
     }else{
       print("inserisci almeno una spesa");
     }
-
-
   }
 
   void creaProd(Prodotto p) {
@@ -67,7 +65,6 @@ class GestoreApp extends ChangeNotifier {
       }
     }
 
-
     for (var lista in tutteLeListe) {
       double newTotal = 0.0;
       for (var spesa in lista.lista) {
@@ -79,13 +76,11 @@ class GestoreApp extends ChangeNotifier {
       }
       lista.spesaTotale = newTotal;
     }
-
     notifyListeners();
   }
 
   void deleteExpense(int listIndex, int expenseIndex) {
     tutteLeListe[listIndex].lista.removeAt(expenseIndex);
-
 
     double newTotal = 0.0;
     for (var spesa in tutteLeListe[listIndex].lista) {
@@ -94,5 +89,47 @@ class GestoreApp extends ChangeNotifier {
     tutteLeListe[listIndex].spesaTotale = newTotal;
 
     notifyListeners();
+  }
+
+  Future<void> getCategorie() async{
+    final db = await DatabaseHelper.instance.database;
+
+    final List<Map<String, dynamic>> result = await db.rawQuery(
+        '''
+      SELECT categoria_nome, COUNT(*) AS numProdotti
+      FROM prodotti
+      GROUP BY categoria_nome;
+      '''
+    );
+
+    for (var occorrenza in result){
+      categorie.add(Categoria(occorrenza['nome']));
+    }
+  }
+
+  Future<void> getProdotti(List<Categoria> l) async{
+    final db = await DatabaseHelper.instance.database;
+
+    final List<Map<String, dynamic>> result = await db.query(
+      'prodotti',
+    );
+
+    for ( Map<String, dynamic> occorrenza in result){
+      for (Categoria c in l) {
+        if (c.nomeCategoria == occorrenza['categoria_nome']) {
+          final newProd = Prodotto(
+              occorrenza['nome'],
+              occorrenza['prezzo'],
+              c,
+              occorrenza['note']
+          );
+          prodotti.add(newProd);
+        }
+      }
+    }
+  }
+
+  Future<void> getListeSpese(Prodotto p) async{
+
   }
 }
