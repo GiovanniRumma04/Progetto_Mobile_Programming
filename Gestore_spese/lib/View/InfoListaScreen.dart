@@ -5,6 +5,8 @@ import 'package:gestore_spese/View/AddList.dart';
 import 'package:gestore_spese/View/CreaCategoriaView.dart';
 import 'package:provider/provider.dart';
 
+import '../Model/ListaSpese.dart';
+
 class InfoListaScreen extends StatefulWidget {
   @override
   State<InfoListaScreen> createState() => _InfoListaScreenState();
@@ -116,12 +118,25 @@ class _InfoListaScreenState extends State<InfoListaScreen> {
                   ),
                   onPressed: _isButtonEnabled
                       ?() {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => AddList(nome: _controller.text),
-                      ),
-                    );
+
+                    if(appProvider.tutteLeListe.contains(ListaSpese(_controller.text))){
+                      Navigator.pop(context);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text("Lista già esistente"),
+                          duration: Duration(seconds: 2),
+                          backgroundColor: Colors.black,
+                        ),
+                      );
+                    }else{
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => AddList(nome: _controller.text),
+                        ),
+                      );
+                    }
+
                   }: null,
                   child: Text('Avanti'),
                 ),

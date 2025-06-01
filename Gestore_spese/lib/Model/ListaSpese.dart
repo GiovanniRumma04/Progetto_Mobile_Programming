@@ -42,6 +42,12 @@ class ListaSpese {
     return "${datacreazione.day}/${datacreazione.month}/${datacreazione.year}";
   }
 
+  @override
+  bool operator ==(Object other) {
+    return other is ListaSpese &&
+        other.nomeLista.toLowerCase() == nomeLista.toLowerCase(); // case-insensitive
+  }
+
 
 
 }
