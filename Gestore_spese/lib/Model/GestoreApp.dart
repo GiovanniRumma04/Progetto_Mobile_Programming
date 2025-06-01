@@ -16,7 +16,11 @@ class GestoreApp extends ChangeNotifier {
   late int indiceCategoria;
   List<Spesa> spesa = [];
 
-
+  GestoreApp(){
+    getCategorie();
+    getProdotti(categorie);
+    getListe(prodotti);
+  }
 
   void addSpesa(Spesa sIn) {
     spesa.removeWhere((s)=> sIn.p.nomeprodotto ==s.p.nomeprodotto);
