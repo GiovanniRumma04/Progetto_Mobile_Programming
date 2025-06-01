@@ -14,7 +14,7 @@ class Spesa {
     acquistato = false;
   }
 
-  Spesa.init(this.p, this.data, this.quantita, this.acquistato)
+  Spesa.init(this.p, this.data, this.quantita, this.acquistato);
 
   @override
   String toString() {
