@@ -35,10 +35,7 @@ class GestoreApp extends ChangeNotifier {
       ls.aggiungiLista(spesa);
       tutteLeListe.add(ls);
 
-    }else{
-      print("inserisci almeno una spesa");
     }
-
     spesa.removeRange(0, spesa.length);
     notifyListeners();
   }
