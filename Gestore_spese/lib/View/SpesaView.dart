@@ -119,6 +119,8 @@ class _SpesaViewState extends State<SpesaView> {
                         count = count - 1;
 
                         widget.targetMap[widget.prodotto] = count;
+                        s.quantita = count;
+                        appProvider.addSpesa(s);
 
 
 
