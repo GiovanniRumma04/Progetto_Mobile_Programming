@@ -30,11 +30,13 @@ class GestoreApp extends ChangeNotifier {
     if(spesa.isNotEmpty){
       ls.aggiungiLista(spesa);
       tutteLeListe.add(ls);
-      spesa.removeRange(0, spesa.length-1);
-      notifyListeners();
+
     }else{
       print("inserisci almeno una spesa");
     }
+
+    spesa.removeRange(0, spesa.length);
+    notifyListeners();
   }
 
   void creaProd(Prodotto p) {
