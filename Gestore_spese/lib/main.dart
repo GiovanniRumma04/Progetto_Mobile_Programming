@@ -2,13 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:gestore_spese/Model/GestoreApp.dart';
 import 'package:gestore_spese/View/HomeView.dart';
 import 'package:provider/provider.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:path/path.dart';
 
 import 'Model/DatabaseHelper.dart';
 import 'View/ListeView.dart';
 
 Future<void> main() async {
-  //WidgetsFlutterBinding.ensureInitialized();
-  //final db = await DatabaseHelper.instance.database;
+  WidgetsFlutterBinding.ensureInitialized();
+
+  /*final dbPath = await getDatabasesPath();
+  await deleteDatabase(join(dbPath, 'mio_database.db'));*/
 
   runApp( MyApp());
 }
