@@ -16,7 +16,7 @@ class DatabaseHelper {
 
   Future<Database> _initDatabase() async {
     return openDatabase(
-      join(await getDatabasesPath(), 'mio_database.db'),
+      '/data/data/appSpesa/databases/mio_database.db',
       onCreate: (db, version) async {
         return db.execute(
             '''
