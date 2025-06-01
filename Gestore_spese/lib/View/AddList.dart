@@ -178,6 +178,14 @@ class _AddListState extends State<AddList> {
               context,
               MaterialPageRoute(builder: (context) => ListeView()),
             );
+          }else{
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text("Inserisci almeno una spesa"),
+                duration: Duration(seconds: 2),
+                backgroundColor: Colors.black,
+              ),
+            );
           }
         },
         elevation: 6,
