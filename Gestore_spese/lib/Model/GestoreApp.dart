@@ -18,7 +18,9 @@ class GestoreApp extends ChangeNotifier {
 
   GestoreApp(){
     getCategorie();
+    print(categorie.toString());
     getProdotti(categorie);
+    print(prodotti.toString());
     getListe(prodotti);
   }
 
@@ -110,7 +112,7 @@ class GestoreApp extends ChangeNotifier {
     );
 
     for (var occorrenza in result){
-      categorie.add(Categoria(occorrenza['nome']));
+      categorie.add(Categoria.init(occorrenza['categoria_nome'], occorrenza['numProdotti']));
     }
   }
 
