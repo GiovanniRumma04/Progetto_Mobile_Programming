@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../Model/Categoria.dart';
 import '../Model/GestoreApp.dart';
+import '../Model/DataBaseHelper.dart';
 
 class CreaCategoriaView extends StatefulWidget {
   const CreaCategoriaView({super.key});

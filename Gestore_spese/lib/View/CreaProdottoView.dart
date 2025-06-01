@@ -6,6 +6,8 @@ import 'package:provider/provider.dart';// Per accedere a GestoreApp
 import 'package:gestore_spese/View/InfoListaScreen.dart';
 
 import 'CreaCategoriaView.dart';
+import '../Model/DataBaseHelper.dart';
+
 class CreaProdottoView extends StatefulWidget {
   const CreaProdottoView({super.key});
 
