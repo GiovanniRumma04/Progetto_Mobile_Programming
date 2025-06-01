@@ -228,12 +228,19 @@ const SizedBox(height: 30),
 
 
 
-                              // Aggiunta del prodotto tramite GestoreApp
-                              Provider.of<GestoreApp>(context, listen: false).creaProd(nuovo);
+                              if(appProvider.prodotti.contains(nuovo)){
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text("Prodotto già esistente"),
+                                    duration: Duration(seconds: 2),
+                                    backgroundColor: Colors.black,
+                                  ),
+                                );
+                              }else{
+                                Provider.of<GestoreApp>(context, listen: false).creaProd(nuovo);
+                                Navigator.pop(context);
+                              }
 
-
-                              // Torna indietro
-                              Navigator.pop(context);
                             }
                           },
                           child: const Text("Conferma"),

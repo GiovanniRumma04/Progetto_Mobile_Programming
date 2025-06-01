@@ -14,9 +14,9 @@ class _CreaCategoriaViewState extends State<CreaCategoriaView> {
   final _formKey = GlobalKey<FormState>();
   String? nomeCategoria;
 
-
   @override
   Widget build(BuildContext context) {
+    final appProvider = Provider.of<GestoreApp>(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text("Crea Categoria"),
@@ -31,10 +31,7 @@ class _CreaCategoriaViewState extends State<CreaCategoriaView> {
             const SizedBox(height: 50),
             const Text(
               "Crea Categoria",
-              style: TextStyle(
-                fontSize: 28,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 40),
@@ -45,7 +42,9 @@ class _CreaCategoriaViewState extends State<CreaCategoriaView> {
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.circular(50), // Changed to make the form oval
+                  borderRadius: BorderRadius.circular(
+                    50,
+                  ), // Changed to make the form oval
                   boxShadow: [
                     BoxShadow(
                       color: Colors.grey.withOpacity(0.5),
@@ -58,15 +57,15 @@ class _CreaCategoriaViewState extends State<CreaCategoriaView> {
                 child: TextFormField(
                   decoration: const InputDecoration(
                     hintText: "Nome Categoria",
-                    contentPadding: EdgeInsets.symmetric(
-                      vertical: 15,
-                    ),
+                    contentPadding: EdgeInsets.symmetric(vertical: 15),
                     border: InputBorder.none,
                   ),
                   textAlign: TextAlign.center,
-                  validator: (value) => value == null || value.isEmpty
-                      ? "Campo obbligatorio"
-                      : null,
+                  validator:
+                      (value) =>
+                          value == null || value.isEmpty
+                              ? "Campo obbligatorio"
+                              : null,
                   onSaved: (value) => nomeCategoria = value,
                 ),
               ),
@@ -89,9 +88,25 @@ class _CreaCategoriaViewState extends State<CreaCategoriaView> {
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       _formKey.currentState!.save();
-                      Categoria nuova = Categoria(nomeCategoria ?? "Senza Nome");
-                      Provider.of<GestoreApp>(context, listen: false).creaCategoria(nuova);
-                      Navigator.pop(context);
+                      Categoria nuova = Categoria(
+                        nomeCategoria ?? "Senza Nome",
+                      );
+
+                      if (appProvider.categorie.contains(nuova)) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text("Categoria già esistente"),
+                            duration: Duration(seconds: 2),
+                            backgroundColor: Colors.black,
+                          ),
+                        );
+                      } else {
+                        Provider.of<GestoreApp>(
+                          context,
+                          listen: false,
+                        ).creaCategoria(nuova);
+                        Navigator.pop(context);
+                      }
                     }
                   },
                   child: const Text("Conferma"),

@@ -29,6 +29,12 @@ class Categoria {
     _numSpese = _numSpese - 1;
   }
 
+  @override
+  bool operator ==(Object other) {
+    return other is Categoria &&
+        other.nomeCategoria.toLowerCase() == nomeCategoria.toLowerCase(); // case-insensitive
+  }
+
   /*Map<String, dynamic> toJson(){
 
     return{
