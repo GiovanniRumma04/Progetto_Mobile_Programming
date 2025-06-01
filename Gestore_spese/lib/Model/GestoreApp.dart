@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/cupertino.dart';
 import 'package:gestore_spese/Model/ListaSpese.dart';
 import 'package:gestore_spese/Model/Prodotto.dart';
@@ -110,9 +112,7 @@ class GestoreApp extends ChangeNotifier {
   Future<void> getProdotti(List<Categoria> l) async{
     final db = await DatabaseHelper.instance.database;
 
-    final List<Map<String, dynamic>> result = await db.query(
-      'prodotti',
-    );
+    final List<Map<String, dynamic>> result = await db.query('prodotti');
 
     for ( Map<String, dynamic> occorrenza in result){
       for (Categoria c in l) {
@@ -129,7 +129,34 @@ class GestoreApp extends ChangeNotifier {
     }
   }
 
-  Future<void> getListeSpese(Prodotto p) async{
+  Future<void> getListe(List<Prodotto> p) async{
+    final db = await DatabaseHelper.instance.database;
 
+    final liste = await db.query('liste');
+
+    for (Map<String, dynamic> occorrenza in liste){
+      final spese = await db.query(
+        'spese',
+        where: 'lista_nome = ?',
+        whereArgs: [occorrenza['nome']]
+      );
+      ListaSpese newLista = ListaSpese.init(occorrenza['nome'], occorrenza['data_creazione']);
+      List<Spesa> newListaSpese = [];
+      for (var spesa in spese){
+        for (var prodotto in p){
+          if (prodotto.nomeprodotto == spesa['prodotto_nome']){
+            newListaSpese.add(
+              Spesa.init(
+                  prodotto,
+                  DateTime.parse(spesa['data'] as String),
+                  spesa['quantita'] as int,
+                  spesa['acquistato'] as bool)
+            );
+          }
+        }
+      }
+      newLista.aggiungiLista(newListaSpese);
+      tutteLeListe.add(newLista);
+    }
   }
 }

@@ -14,6 +14,8 @@ class Spesa {
     acquistato = false;
   }
 
+  Spesa.init(this.p, this.data, this.quantita, this.acquistato)
+
   @override
   String toString() {
     return 'Spesa{p: $p, data: $data, quantita: $quantita, acquistato: $acquistato}';

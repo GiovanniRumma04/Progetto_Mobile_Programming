@@ -17,7 +17,9 @@ class ListaSpese {
     lista = [];
   }
 
-
+  ListaSpese.init(this._nomeLista, this.datacreazione){
+    lista = [];
+  }
 
   String get nomeLista => _nomeLista;
 
