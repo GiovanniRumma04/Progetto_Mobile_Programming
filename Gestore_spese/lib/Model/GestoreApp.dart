@@ -16,12 +16,21 @@ class GestoreApp extends ChangeNotifier {
   late int indiceCategoria;
   List<Spesa> spesa = [];
 
-  GestoreApp(){
-    getCategorie();
-    print(categorie.toString());
-    getProdotti(categorie);
-    print(prodotti.toString());
-    getListe(prodotti);
+  GestoreApp() {
+    init();
+  }
+
+  Future<void> init() async {
+    await getCategorie();
+    print("Categorie caricate: $categorie");
+
+    await getProdotti(categorie);
+    print("Prodotti caricati: $prodotti");
+
+    await getListe(prodotti);
+    print("Liste caricate: $tutteLeListe");
+
+    notifyListeners();
   }
 
   void addSpesa(Spesa sIn) {
@@ -147,7 +156,7 @@ class GestoreApp extends ChangeNotifier {
         where: 'lista_nome = ?',
         whereArgs: [occorrenza['nome']]
       );
-      ListaSpese newLista = ListaSpese.init(occorrenza['nome'], occorrenza['data_creazione']);
+      ListaSpese newLista = ListaSpese.init(occorrenza['nome'], DateTime.parse(occorrenza['data_creazione']));
       List<Spesa> newListaSpese = [];
       for (var spesa in spese){
         for (var prodotto in p){
@@ -155,9 +164,9 @@ class GestoreApp extends ChangeNotifier {
             newListaSpese.add(
               Spesa.init(
                   prodotto,
-                  DateTime.parse(spesa['data'] as String),
+                  DateTime.parse(spesa['data'].toString()),
                   spesa['quantita'] as int,
-                  spesa['acquistato'] as bool)
+                  spesa['acquistato']== 1?true:false)
             );
           }
         }

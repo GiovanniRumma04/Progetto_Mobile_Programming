@@ -15,7 +15,7 @@ class DatabaseHelper {
 
   Future<Database> _initDatabase() async {
     return openDatabase(
-      '/data/data/appSpesa/databases/mio_database.db',
+      join(await getDatabasesPath(),'mio_database.db'),
       onCreate: (db, version) async {
         await db.execute('''
           CREATE TABLE categorie (

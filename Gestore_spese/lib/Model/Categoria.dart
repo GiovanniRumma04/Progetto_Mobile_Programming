@@ -8,7 +8,7 @@ class Categoria {
     _numSpese = 0;
   }
 
-  Categoria.init(this._nomeCategoria, this._numSpese)
+  Categoria.init(this._nomeCategoria, this._numSpese);
 
   String get nomeCategoria => _nomeCategoria;
 
