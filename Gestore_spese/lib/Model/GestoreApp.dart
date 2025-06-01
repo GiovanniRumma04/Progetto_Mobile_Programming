@@ -18,7 +18,9 @@ class GestoreApp extends ChangeNotifier {
 
   GestoreApp(){
     getCategorie();
+    print(categorie.toString());
     getProdotti(categorie);
+    print(prodotti.toString());
     getListe(prodotti);
   }
 
@@ -31,10 +33,10 @@ class GestoreApp extends ChangeNotifier {
 
   void aggiungiSpeseNellaLista(ListaSpese ls){
 
-    if(spesa.isNotEmpty){
+    if(spesa.isNotEmpty) {
       ls.aggiungiLista(spesa);
       tutteLeListe.add(ls);
-
+      DatabaseHelper.instance.insertLista(ls);
     }
     spesa.removeRange(0, spesa.length);
     notifyListeners();
@@ -42,11 +44,13 @@ class GestoreApp extends ChangeNotifier {
 
   void creaProd(Prodotto p) {
     prodotti.add(p);
+    DatabaseHelper.instance.insertProdotto(p);
     notifyListeners();
   }
 
   void creaCategoria(Categoria c) {
     categorie.add(c);
+    DatabaseHelper.instance.insertCategoria(c);
     notifyListeners();
   }
 
@@ -57,7 +61,7 @@ class GestoreApp extends ChangeNotifier {
 
   void eliminaLista(ListaSpese l) {
     tutteLeListe.remove(l);
-    print(tutteLeListe);
+    DatabaseHelper.instance.cancellaLista(l);
     notifyListeners();
   }
 
@@ -108,7 +112,7 @@ class GestoreApp extends ChangeNotifier {
     );
 
     for (var occorrenza in result){
-      categorie.add(Categoria(occorrenza['nome']));
+      categorie.add(Categoria.init(occorrenza['categoria_nome'], occorrenza['numProdotti']));
     }
   }
 
