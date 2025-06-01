@@ -80,19 +80,24 @@ class GestoreApp extends ChangeNotifier {
       if (prodotti[i].nomeprodotto == updatedProduct.nomeprodotto) {
         Prodotto p = prodotti[i];
         p = updatedProduct;
+
       }
     }
 
     for (var lista in tutteLeListe) {
       double newTotal = 0.0;
+
       for (var spesa in lista.lista) {
+        var oldSpesa = spesa;
         if (spesa.p.nomeprodotto == updatedProduct.nomeprodotto) {
           spesa.p = updatedProduct;
           spesa.quantita = updatedQuantita;
         }
         newTotal += spesa.p.prezzo * spesa.quantita;
+        DatabaseHelper.instance.modificaSpesa(lista, oldSpesa, spesa);
       }
       lista.spesaTotale = newTotal;
+
     }
     notifyListeners();
   }
