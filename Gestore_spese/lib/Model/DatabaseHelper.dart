@@ -38,20 +38,29 @@ class DatabaseHelper {
           );
           ''');
 
-      await db.execute('''CREATE TABLE prodotti (
+      await db.execute(
+          '''
+            CREATE TABLE prodotti (
             nome TEXT PRIMARY KEY,
             prezzo REAL NOT NULL,
             note TEXT,
             categoria_nome TEXT NOT NULL,
             FOREIGN KEY (categoria_nome) REFERENCES categorie(nome) ON DELETE CASCADE
-          );''');
+          );'''
+      );
 
-      await db.execute('''CREATE TABLE liste (
+      await db.execute(
+          '''
+          CREATE TABLE liste (
             nome TEXT PRIMARY KEY,
             data_creazione TEXT NOT NULL
-          );''');
+          );
+          '''
+      );
 
-      await db.execute('''CREATE TABLE spese (
+      await db.execute(
+          '''
+          CREATE TABLE spese (
             lista_nome TEXT NOT NULL,
             prodotto_nome TEXT NOT NULL,
             quantita INTEGER NOT NULL CHECK(quantita > 0),
@@ -61,7 +70,8 @@ class DatabaseHelper {
             FOREIGN KEY (lista_nome) REFERENCES liste(nome) ON DELETE CASCADE,
             FOREIGN KEY (prodotto_nome) REFERENCES prodotti(nome) ON DELETE CASCADE
           );
-          ''');
+          '''
+      );
   }
 
   Future<void> insertCategoria(Categoria c) async {
@@ -77,12 +87,16 @@ class DatabaseHelper {
 
     insertCategoria(p.c);
 
-    await db.insert('prodotti', {
-      'nome': p.nomeprodotto,
-      'prezzo': p.prezzo,
-      'note': p.note,
-      'categoria_nome': p.c.nomeCategoria,
-    }, conflictAlgorithm: ConflictAlgorithm.replace);
+    await db.insert(
+      'prodotti',
+        {
+        'nome': p.nomeprodotto,
+        'prezzo': p.prezzo,
+        'note': p.note,
+        'categoria_nome': p.c.nomeCategoria,
+        },
+      conflictAlgorithm: ConflictAlgorithm.replace
+    );
   }
 
   Future<void> cancellaProdotto(Prodotto p) async {

@@ -116,7 +116,7 @@ class GestoreApp extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> getCategorie() async{
+  Future<void> getCategorie() async {
     final db = await DatabaseHelper.instance.database;
 
     final List<Map<String, dynamic>> result = await db.query('categorie');
@@ -131,27 +131,28 @@ class GestoreApp extends ChangeNotifier {
     }
   }
 
-  Future<void> getProdotti(List<Categoria> l) async{
+  Future<void> getProdotti(List<Categoria> l) async {
     final db = await DatabaseHelper.instance.database;
-
-    final List<Map<String, dynamic>> result = await db.query('prodotti');
-
-    for ( Map<String, dynamic> occorrenza in result){
-      for (Categoria c in l) {
-        if (c.nomeCategoria == occorrenza['categoria_nome']) {
-          final newProd = Prodotto(
-              occorrenza['nome'],
-              occorrenza['prezzo'],
-              c,
-              occorrenza['note']
-          );
-          prodotti.add(newProd);
-        }
+    
+    for (var c in l){
+      final res = await db.query(
+        'prodotti',
+        where: 'categoria_nome = ?',
+        whereArgs: [c.nomeCategoria],
+      );
+      for (var p in res){
+        final newProd = Prodotto(
+          p['nome'] as String,
+          double.parse(p['prezzo'] as String),
+          c,
+          p['note'] as String
+        );
+        prodotti.add(newProd);
       }
     }
   }
 
-  Future<void> getListe(List<Prodotto> p) async{
+  Future<void> getListe(List<Prodotto> p) async {
     final db = await DatabaseHelper.instance.database;
 
     final liste = await db.query('liste');
