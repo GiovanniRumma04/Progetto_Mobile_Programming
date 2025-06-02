@@ -22,14 +22,8 @@ class GestoreApp extends ChangeNotifier {
 
   Future<void> init() async {
     await getCategorie();
-    print("Categorie caricate: $categorie");
-
     await getProdotti(categorie);
-    print("Prodotti caricati: $prodotti");
-
     await getListe(prodotti);
-    print("Liste caricate: $tutteLeListe");
-
     notifyListeners();
   }
 
@@ -117,6 +111,7 @@ class GestoreApp extends ChangeNotifier {
   }
 
   Future<void> getCategorie() async {
+    print("getCategorie");
     final db = await DatabaseHelper.instance.database;
 
     final List<Map<String, dynamic>> result = await db.query('categorie');
@@ -129,11 +124,19 @@ class GestoreApp extends ChangeNotifier {
       );
       categorie.add(Categoria.init(occorrenza['nome'], num.length));
     }
+    print("Categorie caricate: $categorie");
   }
 
   Future<void> getProdotti(List<Categoria> l) async {
+    print("getProdotti");
     final db = await DatabaseHelper.instance.database;
-    
+
+    final test = await db.query('prodotti');
+    print(test.length);
+    for (var str in test){
+      print(str.toString());
+    }
+
     for (var c in l){
       final res = await db.query(
         'prodotti',
@@ -143,16 +146,18 @@ class GestoreApp extends ChangeNotifier {
       for (var p in res){
         final newProd = Prodotto(
           p['nome'] as String,
-          double.parse(p['prezzo'] as String),
+          p['prezzo'] as double,
           c,
           p['note'] as String
         );
         prodotti.add(newProd);
       }
     }
+    print("Prodotti caricati: $prodotti");
   }
 
   Future<void> getListe(List<Prodotto> p) async {
+    print("getListe");
     final db = await DatabaseHelper.instance.database;
 
     final liste = await db.query('liste');
@@ -181,5 +186,6 @@ class GestoreApp extends ChangeNotifier {
       newLista.aggiungiLista(newListaSpese);
       tutteLeListe.add(newLista);
     }
+    print("Liste caricate: $tutteLeListe");
   }
 }

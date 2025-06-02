@@ -17,41 +17,43 @@ class DatabaseHelper {
     return openDatabase(
       join(await getDatabasesPath(),'mio_database.db'),
       onCreate: creaDatabase,
-      onConfigure: (db) async {
-        await db.execute('PRAGMA foreign_keys = ON');
-      },
       onUpgrade: (db, oldVersion, newVersion) async {
         await db.execute('DROP TABLE IF EXISTS spese;');
         await db.execute('DROP TABLE IF EXISTS liste;');
         await db.execute('DROP TABLE IF EXISTS prodotti;');
         await db.execute('DROP TABLE IF EXISTS categorie;');
+        await db.execute('PRAGMA foreign_keys = ON');
         creaDatabase(db, newVersion);
       },
-      version: 3,
+      version: 5,
     );
   }
 
   void creaDatabase(db, version) async {
-      await db.execute('''
-          CREATE TABLE categorie (
+      await db.execute(
+          '''
+          CREATE TABLE categorie
+          (
             nome TEXT PRIMARY KEY
           );
-          ''');
+          '''
+      );
 
       await db.execute(
           '''
-            CREATE TABLE prodotti (
+          CREATE TABLE prodotti(
             nome TEXT PRIMARY KEY,
             prezzo REAL NOT NULL,
             note TEXT,
             categoria_nome TEXT NOT NULL,
             FOREIGN KEY (categoria_nome) REFERENCES categorie(nome) ON DELETE CASCADE
-          );'''
+          );
+          '''
       );
 
       await db.execute(
           '''
-          CREATE TABLE liste (
+          CREATE TABLE liste(
             nome TEXT PRIMARY KEY,
             data_creazione TEXT NOT NULL
           );
@@ -60,7 +62,7 @@ class DatabaseHelper {
 
       await db.execute(
           '''
-          CREATE TABLE spese (
+          CREATE TABLE spese(
             lista_nome TEXT NOT NULL,
             prodotto_nome TEXT NOT NULL,
             quantita INTEGER NOT NULL CHECK(quantita > 0),
