@@ -78,6 +78,20 @@ class DatabaseHelper {
 
 
 
+  Future<void> aggiornaProdotto(Prodotto p) async {
+    final db = await database;
+
+    await db.update(
+      'prodotti',
+      {
+        'prezzo': p.prezzo,
+        'note': p.note
+      },
+      where: 'nome = ?',
+      whereArgs: [p.nomeprodotto]
+    );
+  }
+
   Future<void> insertCategoria(Categoria c) async {
     final db = await database;
 

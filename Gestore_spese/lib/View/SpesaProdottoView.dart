@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gestore_spese/Model/DataBaseHelper.dart';
 import '../Model/Prodotto.dart';
 import '../Model/Spesa.dart';
 
@@ -28,12 +29,27 @@ class _SpesaProdottoViewState extends State<SpesaProdottoView> {
     quantita = widget.quantita;
   }
 
+  Future<void> aggiornaProdotto(Prodotto p) async {
+    final db = await DatabaseHelper.instance.database;
+
+    await db.update(
+      'prodotti',
+      {
+        'prezzo': p.prezzo,
+        'note': p.note
+      },
+      where: 'nome = ?',
+      whereArgs: [p.nomeprodotto]
+    );
+  }
+
   void saveChanges() {
     setState(() {
-      widget.prodotto.nomeprodotto = nomeController.text;
+      //widget.prodotto.nomeprodotto = nomeController.text;
       widget.prodotto.prezzo = double.tryParse(prezzoController.text) ?? widget.prodotto.prezzo;
       widget.prodotto.note = noteController.text;
     });
+    aggiornaProdotto(widget.prodotto);
     Navigator.pop(context, {
       'nome': widget.prodotto.nomeprodotto,
       'prezzo': widget.prodotto.prezzo,
