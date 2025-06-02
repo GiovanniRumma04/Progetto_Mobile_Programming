@@ -5,10 +5,11 @@ import 'package:gestore_spese/Model/Spesa.dart';
 import 'package:gestore_spese/View/SpesaProdottoView.dart';
 import 'package:provider/provider.dart';
 
+import '../Model/DataBaseHelper.dart';
+
 class ListaView extends StatefulWidget {
   final ListaSpese l;
   final indexL;
-
   const ListaView({super.key, required this.l, this.indexL});
 
   @override
@@ -83,11 +84,14 @@ class CustomCards extends StatefulWidget {
   final Spesa s;
   final int indexSpesa;
   final int indexList;
-
   const CustomCards({super.key, required this.s, required this.indexList, required this.indexSpesa});
 
   @override
   State<CustomCards> createState() => _CustomCardsState();
+
+
+
+
 }
 
 class _CustomCardsState extends State<CustomCards> {
@@ -197,9 +201,12 @@ class _CustomCardsState extends State<CustomCards> {
                     ),
                   ),
                   Checkbox(
+                    checkColor: Colors.white,
+                    activeColor:Color(0xFFFE6D73) ,
                     value: widget.s.acquistato,
                     onChanged: (value) => setState(() {
                       widget.s.acquistato = !widget.s.acquistato;
+
                     }),
                   ),
                 ],
