@@ -53,6 +53,8 @@ class GestoreApp extends ChangeNotifier {
 
   void creaProd(Prodotto p) {
     prodotti.add(p);
+    final c = categorie.firstWhere((c) => c.nomeCategoria == p.c.nomeCategoria);
+    c.addNumSpese();
     DatabaseHelper.instance.insertProdotto(p);
     notifyListeners();
   }
