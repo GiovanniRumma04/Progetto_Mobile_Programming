@@ -50,6 +50,13 @@ class ListaSpese {
         other.nomeLista.toLowerCase() == nomeLista.toLowerCase(); // case-insensitive
   }
 
-
+  @override
+  String toString() {
+    String retVal = 'ListaSpesa{_nomeLista: $_nomeLista, data: $datacreazione,{';
+    for (var spesa in lista){
+      retVal += spesa.toString() + ', ';
+    }
+    return retVal + 'end}';
+  }
 
 }

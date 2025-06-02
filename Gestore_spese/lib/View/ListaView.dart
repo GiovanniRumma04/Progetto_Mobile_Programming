@@ -97,7 +97,7 @@ class CustomCards extends StatefulWidget {
         'spese',
         {
           'quantita': s.quantita,
-          'data': s.data,
+          'data': s.data.toString(),
           'acquistato': s.acquistato,
         },
         where: 'lista_nome = ? AND prodotto_nome = ?',

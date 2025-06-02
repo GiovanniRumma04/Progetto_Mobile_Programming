@@ -176,9 +176,10 @@ class GestoreApp extends ChangeNotifier {
             newListaSpese.add(
               Spesa.init(
                   prodotto,
-                  DateTime.parse(spesa['data'].toString()),
+                  DateTime.parse(spesa['data'] as String),
                   spesa['quantita'] as int,
-                  spesa['acquistato']== 1?true:false)
+                  spesa['acquistato'] != 0 ? true : false
+              )
             );
           }
         }
