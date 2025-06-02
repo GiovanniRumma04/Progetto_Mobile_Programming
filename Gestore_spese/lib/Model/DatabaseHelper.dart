@@ -76,20 +76,7 @@ class DatabaseHelper {
       );
   }
 
-  Future<void> aggiornaSpesa(ListaSpese l, Spesa s) async {
-    final db = await database;
 
-    await db.update(
-      'spese',
-      {
-        'quantita': s.quantita,
-        'data': s.data,
-        'acquistato': s.acquistato,
-      },
-      where: 'lista_nome = ? AND prodotto_nome = ?',
-      whereArgs: [l.nomeLista, s.p.nomeprodotto]
-    );
-  }
 
   Future<void> insertCategoria(Categoria c) async {
     final db = await database;

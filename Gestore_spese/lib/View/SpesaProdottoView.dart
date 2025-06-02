@@ -62,15 +62,10 @@ class _SpesaProdottoViewState extends State<SpesaProdottoView> {
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: TextField(
-                controller: nomeController,
-                enabled: !widget.isReadOnly,
-                decoration: InputDecoration(
-                  labelText: "Nome Prodotto",
-                  labelStyle: TextStyle(color: Colors.black54),
-                  border: InputBorder.none,
-                ),
-                style: TextStyle(fontSize: 20),
+              child: Text(
+
+                   "${widget.prodotto.nomeprodotto}",
+                style: TextStyle(fontSize: 20,),
               ),
             ),
             Container(

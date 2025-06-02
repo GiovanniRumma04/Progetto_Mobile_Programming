@@ -64,7 +64,7 @@ class _ListaViewState extends State<ListaView> {
               child: ListView.builder(
                 itemCount: speseFiltrate.length,
                 itemBuilder: (context, index) {
-                  return CustomCards(s: speseFiltrate[index], indexList: widget.indexL, indexSpesa: index);
+                  return CustomCards(s: speseFiltrate[index], indexList: widget.indexL, indexSpesa: index, listaSpesaRiferimento: widget.l,);
                 },
               ),
             ),
@@ -84,17 +84,32 @@ class CustomCards extends StatefulWidget {
   final Spesa s;
   final int indexSpesa;
   final int indexList;
-  const CustomCards({super.key, required this.s, required this.indexList, required this.indexSpesa});
+  final listaSpesaRiferimento ;
+  const CustomCards({super.key, required this.s, required this.indexList, required this.indexSpesa,required this.listaSpesaRiferimento});
 
   @override
   State<CustomCards> createState() => _CustomCardsState();
 
+  Future<void> aggiornaSpesa(ListaSpese l, Spesa s) async {
+    final db = await DatabaseHelper.instance.database;
 
+    await db.update(
+        'spese',
+        {
+          'quantita': s.quantita,
+          'data': s.data,
+          'acquistato': s.acquistato,
+        },
+        where: 'lista_nome = ? AND prodotto_nome = ?',
+        whereArgs: [l.nomeLista, s.p.nomeprodotto]
+    );
+  }
 
 
 }
 
 class _CustomCardsState extends State<CustomCards> {
+
   @override
   Widget build(BuildContext context) {
     final appProvider = Provider.of<GestoreApp>(context);
@@ -190,7 +205,7 @@ class _CustomCardsState extends State<CustomCards> {
                     });
                   }
                 },
-                icon: Icon(Icons.edit, color: Colors.green),
+                icon: Icon(Icons.edit, color: Color(0xFF17C3B2)),
               ),
               Row(
                 children: [
@@ -206,6 +221,7 @@ class _CustomCardsState extends State<CustomCards> {
                     value: widget.s.acquistato,
                     onChanged: (value) => setState(() {
                       widget.s.acquistato = !widget.s.acquistato;
+                      widget.aggiornaSpesa(widget.listaSpesaRiferimento,widget.s);
 
                     }),
                   ),
