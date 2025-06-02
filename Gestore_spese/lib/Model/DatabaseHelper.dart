@@ -17,6 +17,9 @@ class DatabaseHelper {
     return openDatabase(
       join(await getDatabasesPath(),'mio_database.db'),
       onCreate: creaDatabase,
+      onConfigure: (db) async {
+        await db.execute('PRAGMA foreign_keys = ON');
+      },
       onUpgrade: (db, oldVersion, newVersion) async {
         await db.execute('DROP TABLE IF EXISTS spese;');
         await db.execute('DROP TABLE IF EXISTS liste;');
@@ -90,12 +93,13 @@ class DatabaseHelper {
       where: 'nome = ?',
       whereArgs: [p.nomeprodotto],
     );
-
+    /*
     await db.delete(
       'spese',
       where: 'prodotto_nome = ?',
       whereArgs: [p.nomeprodotto],
     );
+    */
   }
 
   Future<void> insertLista(ListaSpese l) async {
@@ -108,14 +112,7 @@ class DatabaseHelper {
 
     for (var spesa in l.lista) {
       insertProdotto(spesa.p);
-
-      await db.insert('spese', {
-        'lista_nome': l.nomeLista,
-        'prodotto_nome': spesa.p.nomeprodotto,
-        'quantita': spesa.quantita,
-        'data': spesa.data.toString(),
-        'acquistato': spesa.acquistato ? 1 : 0,
-      }, conflictAlgorithm: ConflictAlgorithm.replace);
+      insertSpesa(l, spesa);
     }
   }
 
@@ -127,30 +124,33 @@ class DatabaseHelper {
       where: 'nome = ?',
       whereArgs: [l.nomeLista],
     );
-
+    /*
     await db.delete(
       'spese',
       where: 'lista_nome = ?',
       whereArgs: [l.nomeLista],
     );
+     */
   }
 
-  Future<void> modificaSpesa(
-    ListaSpese lista,
-    Spesa oldSpesa,
-    Spesa newSpesa,
-  ) async {
+  Future<void> modificaSpesa(ListaSpese lista, Spesa oldSpesa, Spesa newSpesa) async {
     final db = await database;
 
     cancellaProdotto(oldSpesa.p);
     insertProdotto(newSpesa.p);
+    insertSpesa(lista, newSpesa);
+  }
 
+  Future<void> insertSpesa(ListaSpese l, Spesa s) async {
+    final db = await database;
     await db.insert('spese', {
-      'lista_nome': lista.nomeLista,
-      'prodotto_nome': newSpesa.p.nomeprodotto,
-      'quantita': newSpesa.quantita,
-      'data': newSpesa.data.toString(),
-      'acquistato': newSpesa.acquistato ? 1 : 0,
-    }, conflictAlgorithm: ConflictAlgorithm.replace);
+      'lista_nome': l.nomeLista,
+      'prodotto_nome': s.p.nomeprodotto,
+      'quantita': s.quantita,
+      'data': s.data.toString(),
+      'acquistato': s.acquistato ? 1 : 0,
+    },
+        conflictAlgorithm: ConflictAlgorithm.replace
+    );
   }
 }

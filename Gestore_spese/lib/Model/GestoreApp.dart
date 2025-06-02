@@ -117,16 +117,15 @@ class GestoreApp extends ChangeNotifier {
   Future<void> getCategorie() async{
     final db = await DatabaseHelper.instance.database;
 
-    final List<Map<String, dynamic>> result = await db.rawQuery(
-        '''
-      SELECT categoria_nome, COUNT(*) AS numProdotti
-      FROM prodotti
-      GROUP BY categoria_nome;
-      '''
-    );
+    final List<Map<String, dynamic>> result = await db.query('categorie');
 
     for (var occorrenza in result){
-      categorie.add(Categoria.init(occorrenza['categoria_nome'], occorrenza['numProdotti']));
+      final num = await db.query(
+        'prodotti',
+        where: 'categoria_nome = ?',
+        whereArgs: [occorrenza['nome']]
+      );
+      categorie.add(Categoria.init(occorrenza['nome'], num.length));
     }
   }
 
