@@ -172,7 +172,7 @@ class _BlocchiCategorieState extends State<blocchiCategorie> {
     if (widget.appProvider.categorie.isEmpty) {
       return "Nessuna Categoria";
     } else {
-      return widget.appProvider.categorie[index].nomeCategoria;
+      return widget.appProvider.categorie[index].nomeCategoria +" x"+widget.appProvider.categorie[index].numSpese.toString();
     }
   }
 

@@ -239,6 +239,7 @@ const SizedBox(height: 30),
                                   ),
                                 );
                               }else{
+                                print("Numero categoria: "+nuovo.c.numSpese.toString());
                                 Provider.of<GestoreApp>(context, listen: false).creaProd(nuovo);
                                 Navigator.pop(context);
                               }
